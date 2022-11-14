@@ -32,6 +32,7 @@ class Request(Base):
         self.key_issuances_list = []
 
     def add_key_issuance(self):
+        print("THIS IS A TEST")
         pass
 
 

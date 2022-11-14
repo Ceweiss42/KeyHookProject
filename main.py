@@ -21,6 +21,10 @@ from db_connection import Session, engine
 # that uses Base as its supertype will show up in the postgres.demo schema.
 from orm_base import metadata
 import logging
+from DoorName import DoorName
+from Door import Door
+from Room import Room
+from Building import Building
 from sqlalchemy import Column, String, Integer, Float, UniqueConstraint, \
     Identity, ForeignKey, distinct, bindparam
 from sqlalchemy.orm import relationship, backref
@@ -42,18 +46,13 @@ if __name__ == '__main__':
     # those tables for us.
     metadata.create_all(bind=engine)
 
-    # create students
-    s1: Student = Student(last_name="Aguilar", first_name="Ed")
-    s2: Student = Student(last_name="Weiss", first_name="Cam")
-    s3: Student = Student(last_name="Somebody", first_name="Joe")
+    #
+    southDoorName: DoorName = DoorName("South")
+    northDoorName: DoorName = DoorName("North")
+    VEC: Building = Building("VEC")
+    standardRoom: Room = Room(419, VEC)
+    standardDoorA: Door = Door(southDoorName, standardRoom)
 
-    # create sections
-    sec1: Section = Section(department_name="CECS", course_name="Database Fun", section_number=1,
-                            semester="Fall", year=2022)
-    sec2: Section = Section(department_name="CECS", course_name="Database Fun", section_number=2,
-                            semester="Fall", year=2022)
-    sec3: Section = Section(department_name="CECS", course_name="Database Fun", section_number=3,
-                            semester="Fall", year=2022)
 
 
     # Do our database work within a context.  This makes sure that the session gets closed
@@ -62,18 +61,6 @@ if __name__ == '__main__':
     with Session() as sess:
         sess.begin()
         print("Inside the session, woo hoo.")
-        # add the students
-        sess.add(s1)
-        sess.add(s2)
-        sess.add(s3)
-        # add the sections
-        sess.add(sec1)
-        sess.add(sec2)
-        sess.add(sec3)
-        # insert into sections_students.
-        sec3.add_student(s1)
-        sec3.add_student(s2)
-        sec3.add_student(s3)
-        sess.commit()
+        Door
 
     print("Exiting normally.")

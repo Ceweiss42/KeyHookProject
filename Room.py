@@ -17,6 +17,6 @@ class Room(Base):
     # Building does not have a candidate key
     # One to many relationship for Building and Rooms
 
-    def __init__(self, room_number: Integer, building_name: String):
+    def __init__(self, room_reference: Room):
         self.room_number = room_number
-        self.building_name = building_name
+        self.building_name = building.building_name

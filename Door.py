@@ -7,6 +7,9 @@ from HookDoor import HookDoor
 
 from orm_base import Base
 
+from DoorName import DoorName
+from Room import Room
+
 
 class Door(Base):
     __tablename__ = "doors"
@@ -27,10 +30,10 @@ class Door(Base):
     hook_list: [HookDoor] = relationship("HookDoor", back_populates="door", viewonly=False)
 
     # Constructor
-    def __init__(self, door_name: String, room_number: Integer, building_name: String):
-        self.door_name = door_name
-        self.room_number = room_number
-        self.building_name = building_name
+    def __init__(self, door_name: DoorName, room_reference: Room):
+        self.door_name = door_name.door_name
+        self.room_number = room_reference.room_number
+        self.building_name = room_reference.building_name
         self.hook_list = []
 
     """Add an door to the list of hooks.

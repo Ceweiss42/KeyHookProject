@@ -3,7 +3,7 @@ from sqlalchemy import Column, Integer, Identity, Float, \
 from sqlalchemy.orm import relationship
 
 from orm_base import Base
-from Room import Room
+from Building import Building
 
 
 class Room(Base):
@@ -17,6 +17,6 @@ class Room(Base):
     # Building does not have a candidate key
     # One to many relationship for Building and Rooms
 
-    def __init__(self, room_reference: Room):
+    def __init__(self, room_number: Integer, building: Building):
         self.room_number = room_number
         self.building_name = building.building_name

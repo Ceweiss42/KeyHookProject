@@ -16,7 +16,7 @@ class ReturnKey(Base):
     key_issuance = relationship("key_issuance", back_populates = "return_keys")
 
     # Constructor
-    def init(self, key_issuance_loaned_out_date: DateTime, key_issuance_request_id: Integer, return_date : DateTime):
-        self.key_issuance_loaned_out_date = key_issuance_loaned_out_date
-        self.key_issuance_request_id = key_issuance_request_id
+    def init(self, key_issuance: KeyIssuance, return_date: DateTime):
+        self.key_issuance_loaned_out_date = key_issuance.loaned_out_date
+        self.key_issuance_request_id = key_issuance.request_request_id
         self.return_date = return_date

@@ -19,7 +19,7 @@ class LossKey(Base):
     key_issuance = relationship("key_issuance", back_populates = "loss_keys")
 
     # Constructor
-    def init(self, key_issuance_loaned_out_date: DateTime, key_issuance_request_id: Integer, loss_date : Integer):
-        self.key_issuance_loaned_out_date = key_issuance_loaned_out_date
-        self.key_issuance_request_id= key_issuance_request_id
+    def init(self, key_issuance: KeyIssuance, loss_date: Integer):
+        self.key_issuance_loaned_out_date = key_issuance.loaned_out_date
+        self.key_issuance_request_id= key_issuance.request_request_id
         self.loss_date = loss_date

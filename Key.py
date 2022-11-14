@@ -21,8 +21,8 @@ class Key(Base):
     requests_list: [Request] = relationship("Request", back_populates="key", viewonly=False)
 
     # Constructor
-    def __init__(self, key_number: Integer):
-        self.key_number = key_number
+    def __init__(self, original_hook: Hook):
+        self.key_number = original_hook.hook_number
         self.requests_list = []
 
     """Add an employee to the list of requests that apply to this employee.

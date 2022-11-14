@@ -13,5 +13,5 @@ class Building(Base):
     # One to many relationship for Building and Rooms
     # Building.rooms = relationship("Room", back_populates="building_name", viewonly=False)
 
-    def __init__(self, building_name: String):
+    def __init__(self, building_name: String(40)):
         self.building_name = building_name

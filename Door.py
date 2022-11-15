@@ -47,8 +47,8 @@ class Door(Base):
                 print("Hook already exist.")
                 return
         # Create an instance of the junction table class for this relationship.
-        hook_door = Hook(hook, self)
+        hook_door = HookDoor(hook, self)
         # Update this move to reflect that we have this request.
-        hook.door_list.append(hook_door)
+        hook.add_door(self)
         # Update the genre to reflect this request.
         self.hook_list.append(hook_door)

@@ -61,6 +61,6 @@ if __name__ == '__main__':
     with Session() as sess:
         sess.begin()
         print("Inside the session, woo hoo.")
-        Door
+
 
     print("Exiting normally.")

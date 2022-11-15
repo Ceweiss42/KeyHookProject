@@ -33,9 +33,12 @@ class Request(Base):
         self.key_number = key.key_number
         self.key_issuances_list = []
 
-    def add_key_issuance(self):
-        print("THIS IS A TEST")
-        pass
+    def add_key_issuance(self, key_issuance : KeyIssuance):
+        for next_ki in self.key_issuances_list:
+            if next_ki == key_issuance:
+                print("THIS REQUEST HAS ALREADY BEEN FILLED")
+                return
 
+        #key_issuance =
 
     

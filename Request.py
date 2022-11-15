@@ -22,8 +22,9 @@ class Request(Base):
     request_id = Column('request_id', Integer, Identity(start=1, cycle=True), nullable=False, primary_key=True)
 
     key_issuances_list : [KeyIssuance] = relationship("KeyIssuance", back_populates='request', view_only=False)
-
-    r_employee_id = relationship ('EmployeeID', back_populates='requests', viewonly=False)
+    r_employee = relationship('Employee', back_populates='request', viewonly=False)
+    r_key = relationship('Key', back_populates='request', viewonly=False)
+    r_room = relationship('Room', back_populates='request', viewonly=False)
 
     def __init__(self, employee: Employee, room: Room, key: Key, reqDate: DateTime):
         self.room_number = room.room_number
@@ -40,5 +41,6 @@ class Request(Base):
                 return
 
         #key_issuance =
+
 
     

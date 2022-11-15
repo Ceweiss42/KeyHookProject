@@ -54,3 +54,4 @@ class Door(Base):
         self.hook_list.append(hook_door)
 
         #this is a change
+        #this is a change but better >:)

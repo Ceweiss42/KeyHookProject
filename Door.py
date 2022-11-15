@@ -39,7 +39,7 @@ class Door(Base):
     """Add an door to the list of hooks.
         @param door The instance of door tied to this hook."""
 
-    def add_hook(self, hook):
+    def add_hook(self, hook: Hook):
         # make sure this request is non already on the list.
         for next_hook in self.hook_list:
             if next_hook == hook:
@@ -49,9 +49,6 @@ class Door(Base):
         # Create an instance of the junction table class for this relationship.
         hook_door = HookDoor(hook, self)
         # Update this move to reflect that we have this request.
-        hook.add_door(self)
+        hook.add_door(hook_door)
         # Update the genre to reflect this request.
         self.hook_list.append(hook_door)
-
-        #this is a change
-        #this is a change but better >:)

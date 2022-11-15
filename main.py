@@ -25,6 +25,8 @@ from DoorName import DoorName
 from Door import Door
 from Room import Room
 from Building import Building
+from Employee import Employee
+
 from sqlalchemy import Column, String, Integer, Float, UniqueConstraint, \
     Identity, ForeignKey, distinct, bindparam
 from sqlalchemy.orm import relationship, backref
@@ -46,13 +48,33 @@ if __name__ == '__main__':
     # those tables for us.
     metadata.create_all(bind=engine)
 
-    #
+    """
     southDoorName: DoorName = DoorName("South")
     northDoorName: DoorName = DoorName("North")
     VEC: Building = Building("VEC")
     standardRoom: Room = Room(419, VEC)
-    standardDoorA: Door = Door(southDoorName, standardRoom)
+    standardDoorA: Door = Door(southDoorName, standardRoom"""
 
+    # populate the building Table
+    building1: Building("Engineering")
+    building2: Building("Psychology")
+    building3: Building("Science")
+    building4: Building("Metal Shop")
+    building5: Building("Lecture Hall")
+
+    # populate the employee table
+    employee1: Employee("Ed", "Aguilar")
+    employee2: Employee("Cam", "Weiss")
+    employee3: Employee("Jim", "Ha")
+    employee4: Employee("Jeff", "Lucena")
+
+    # populate the DoorName table
+    doorname1: DoorName("North")
+    doorname2: DoorName("South")
+    doorname3: DoorName("East")
+    doorname4: DoorName("West")
+    doorname5: DoorName("Front")
+    doorname6: DoorName("Back")
 
 
     # Do our database work within a context.  This makes sure that the session gets closed
@@ -61,6 +83,10 @@ if __name__ == '__main__':
     with Session() as sess:
         sess.begin()
         print("Inside the session, woo hoo.")
+
+
+
+
 
 
     print("Exiting normally.")

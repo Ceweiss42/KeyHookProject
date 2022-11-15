@@ -20,7 +20,7 @@ postgres            The ID used for logging into the database.  When you install
 <your port>         The default port # for PostgreSQL is 5432, so that is probably what you want to have
                     here.  But just in case you are using something else, I made this a "variable".
 postgres            The name of the database."""
-db_url = "postgresql+psycopg2://postgres:mimipillow110:5432/postgres"
+db_url = "postgresql+psycopg2://postgres:Cameron7@localhost:5432/postgres"
 
 # Create the database engine that we will use for all of our work.  This does not actually connect
 # just yet, it is more like a connection prototype that we actually fire up when we create a session.

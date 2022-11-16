@@ -11,11 +11,11 @@ class Hook(Base):
                          nullable=False, primary_key=True)
 
     # Hook does not have a candidate key
-    # Hook is not a child to a relationship.
+    # Many to many relationship with HookDoor
     door_list: [HookDoor] = relationship("HookDoor", back_populates="hook", viewonly=False)
 
-    def __init__(self, hook_number: Integer):
-        self.hook_number = hook_number
+    def __init__(self, hook):
+        self.hook_number = hook.hook_number
         self.door_list = []
 
     """Add an door to the list of hooks.

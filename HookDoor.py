@@ -1,10 +1,7 @@
 from sqlalchemy import Column, Integer, Identity, Float, \
     String, UniqueConstraint, ForeignKey
 from sqlalchemy.orm import relationship
-
 from orm_base import Base
-from Hook import Hook
-from Door import Door
 
 
 class HookDoor(Base):
@@ -23,9 +20,9 @@ class HookDoor(Base):
     # Hookdoor does not have a candidate key
 
     # Constructor
-    def __init__(self, hook: Hook, door: Door):
-        self.hook = hook.hook_number
-        self.door = door.door_name
+    def __init__(self, hook, door):
+        self.hook_number = hook.hook_number
+        self.door_name = door.door_name
 
         # These next two properties are strictly from the OO perspective.
         self.door = door

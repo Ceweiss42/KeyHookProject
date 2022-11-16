@@ -1,14 +1,9 @@
 from sqlalchemy import Column, Integer, Identity, Float, \
     String, UniqueConstraint, ForeignKey
 from sqlalchemy.orm import relationship
-
 from Hook import Hook
 from HookDoor import HookDoor
-
 from orm_base import Base
-
-from DoorName import DoorName
-from Room import Room
 
 
 class Door(Base):
@@ -22,24 +17,24 @@ class Door(Base):
 
     # Building does not have a candidate key
     # One-to-many relationship between DoorName and Door
-    door_name = relationship("Door", back_populates="doors", viewonly=False)
+    r_door_name = relationship("Door", back_populates="door_name", viewonly=False)
     # One-to-many relationship between Room and Door
-    rooms_doors = relationship("Door", back_populates="room", viewonly=False)
-    rooms_building_name_doors = relationship("Door", back_populates="building_name", viewonly=False)
+    r_rooms_doors = relationship("Door", back_populates="room", viewonly=False)
+    rooms_building_name_doors = relationship("Door", back_populates="building", viewonly=False)
     # Many-to-many relationship with Hook
     hook_list: [HookDoor] = relationship("HookDoor", back_populates="door", viewonly=False)
 
     # Constructor
-    def __init__(self, door_name: DoorName, room_reference: Room):
+    def __init__(self, door_name, room):
         self.door_name = door_name.door_name
-        self.room_number = room_reference.room_number
-        self.building_name = room_reference.building_name
+        self.room_number = room.room_number
+        self.building_name = room.building_name
         self.hook_list = []
 
     """Add an door to the list of hooks.
         @param door The instance of door tied to this hook."""
 
-    def add_hook(self, hook: Hook):
+    def add_hook(self, hook):
         # make sure this request is non already on the list.
         for next_hook in self.hook_list:
             if next_hook == hook:

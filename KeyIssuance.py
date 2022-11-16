@@ -1,9 +1,6 @@
 from sqlalchemy import Column, Integer, Identity, Float, \
     String, UniqueConstraint, ForeignKey, DateTime
 from sqlalchemy.orm import relationship
-
-from Request import Request
-
 from orm_base import Base
 
 
@@ -16,6 +13,6 @@ class KeyIssuance(Base):
     return_keys = relationship("return_keys", back_populates="key_issuance", uselist=False)
 
     # Constructor
-    def init(self, loaned_out_date: DateTime, request: Request):
+    def init(self, loaned_out_date: DateTime, request):
         self.loaned_out_date = loaned_out_date
         self.request_request_id = request.request_id

@@ -3,7 +3,7 @@ from sqlalchemy import Column, Integer, Identity, Float, \
 from sqlalchemy.orm import relationship
 
 from orm_base import Base
-from Room import Room
+#from Room import Room
 
 class Building(Base):
     __tablename__ = "buildings"

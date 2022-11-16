@@ -1,9 +1,10 @@
 from sqlalchemy import Column, Integer, Identity, Float, \
     String, UniqueConstraint, ForeignKey
 from sqlalchemy.orm import relationship
-
+from Request import Request
 from orm_base import Base
 from Building import Building
+from Employee import Employee
 
 
 class Room(Base):
@@ -11,9 +12,9 @@ class Room(Base):
     room_number = Column("room_number", Integer, nullable=False, primary_key=True)
     building_name = Column('building_name', String(40), ForeignKey('buildings.building_name'),
                            nullable=False, primary_key=True)
-    #One to many relationship between building and room
+    # One to many relationship between building and room
     r_building = relationship("Building", back_populates="room", viewonly=False)
-    #One to many relationship between room and door
+    # One to many relationship between room and door
     r_door = relationship("Door", back_populates="room", viewonly=False)
 
     # Building does not have a candidate key
@@ -38,6 +39,3 @@ class Room(Base):
         employee.add_request(room_request)
         # Update the genre to reflect this request.
         self.request_list.append(room_request)
-
-
-

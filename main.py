@@ -1,26 +1,36 @@
-"""HookKey Project Phase Two:  Using SQL Alchemy to create an application for key requests"""
+"""This "application" is a demonstration using SQLAlchemy to create a small number of tables and populate
+them.  Not evey possible use case for SQLAlchemy is explored in this demonstration, only those which are
+required for this particular demonstration.
 
+Technical Note: Be sure to have psycopg2 or whichever package you need to support whichever
+relational dialect that you are using installed.  No imports call attention to the database
+connectivity library, that is referenced when you run your application."""
 
+# Think of Session and engine like global variables.  A little ghetto, but the only
+# other alternative would have been a singleton design pattern.
 from pprint import pprint
+
+import sqlalchemy.sql.functions
+
+# the db_connection.py code sets up some connection objects for us, almost like Java class variables
+# that get loaded up at run time.  This statement builds the Session class and the engine object
+# that we will use for interacting with the database.
+from db_connection import Session, engine
+# orm_base defines the Base class on which we build all of our Python classes and in so doing,
+# stipulates that the schema that we're using is 'demo'.  Once that's established, any class
+# that uses Base as its supertype will show up in the postgres.demo schema.
+from orm_base import metadata
+import logging
+from DoorName import DoorNames
+from Door import Doors
+from Room import Rooms
+from Building import Buildings
+from Employee import Employees
+
 from sqlalchemy import Column, String, Integer, Float, UniqueConstraint, \
     Identity, ForeignKey, distinct, bindparam
 from sqlalchemy.orm import relationship, backref
-from Building import Building
-from Employee import Employee
-from DoorName import DoorName
-from Hook import Hook
-from Door import Door
-from HookDoor import HookDoor
-from Key import Key
-from KeyIssuance import KeyIssuance
-from LossKey import LossKey
-#from Request import Request
-from ReturnKey import ReturnKey
-from Room import Room
-import sqlalchemy.sql.functions
-from db_connection import Session, engine
-from orm_base import metadata
-import logging
+from orm_base import Base
 
 
 if __name__ == '__main__':
@@ -38,27 +48,36 @@ if __name__ == '__main__':
     # those tables for us.
     metadata.create_all(bind=engine)
 
-    #create variables for tables that will be populated manually.
-    # variables to populate the building Table
-    building1: Building("Engineering")
-    building2: Building("Psychology")
-    building3: Building("Science")
-    building4: Building("Metal Shop")
-    building5: Building("Lecture Hall")
+    """
+    southDoorName: DoorName = DoorName("South")
+    northDoorName: DoorName = DoorName("North")
+    VEC: Building = Building("VEC")
+    standardRoom: Room = Room(419, VEC)
+    standardDoorA: Door = Door(southDoorName, standardRoom"""
 
-    # variables to populate the employee table
-    employee1: Employee("Ed", "Aguilar")
-    employee2: Employee("Cam", "Weiss")
-    employee3: Employee("Jim", "Ha")
-    employee4: Employee("Jeff", "Lucena")
+    # populate the building Table
+    building1: Buildings("Engineering")
+    building2: Buildings("Psychology")
+    building3: Buildings("Science")
+    building4: Buildings("Metal Shop")
+    building5: Buildings("Lecture Hall")
 
-    # variables to populate the DoorName table
-    doorname1: DoorName("North")
-    doorname2: DoorName("South")
-    doorname3: DoorName("East")
-    doorname4: DoorName("West")
-    doorname5: DoorName("Front")
-    doorname6: DoorName("Back")
+    # populate the employee table
+    employee1: Employees("Ed", "Aguilar")
+    employee2: Employees("Cam", "Weiss")
+    employee3: Employees("Jim", "Ha")
+    employee4: Employees("Jeff", "Lucena")
+
+    # populate the DoorName table
+    doorname1: DoorNames("North")
+    doorname2: DoorNames("South")
+    doorname3: DoorNames("East")
+    doorname4: DoorNames("West")
+    doorname5: DoorNames("Front")
+    doorname6: DoorNames("Back")
+
+
+
 
     # Do our database work within a context.  This makes sure that the session gets closed
     # at the end of the with, much like what it would be like if you used a with to open a file.
@@ -66,24 +85,12 @@ if __name__ == '__main__':
     with Session() as sess:
         sess.begin()
         print("Inside the session, woo hoo.")
-        # add the buildings
         sess.add(building1)
         sess.add(building2)
         sess.add(building3)
         sess.add(building4)
         sess.add(building5)
-        # add the employees
-        sess.add(employee1)
-        sess.add(employee2)
-        sess.add(employee3)
-        sess.add(employee4)
-        # add the doorNames
-        sess.add(doorname1)
-        sess.add(doorname2)
-        sess.add(doorname3)
-        #sec3.add_student(s1)
-        #sec3.add_student(s2)
-        #sec3.add_student(s3)
-        #sess.commit()
+        sess.commit()
+        sess.close()
 
-print("Exiting normally.")
+    print("Exiting normally.")

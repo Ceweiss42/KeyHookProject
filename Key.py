@@ -2,26 +2,26 @@ from sqlalchemy import Column, Integer, Identity, Float, \
     String, UniqueConstraint, ForeignKey
 from sqlalchemy.orm import relationship
 
-from Hook import Hook
-from DoorName import DoorName
-from Request import Request
+from Hook import Hooks
+from DoorName import DoorNames
+from Request import Requests
 
 from orm_base import Base
 
 
-class Key(Base):
+class Keys(Base):
     __tablename__ = "keys"
     key_number = Column('key_number', Integer, ForeignKey('hooks.hook_number'), nullable=False, primary_key=True)
 
     # Key does not have a candidate key
     # One to many relationship between hook and key
-    hook_key = relationship("Key", back_populates="key_number", viewonly=False)
+    hook_key = relationship("Hook", back_populates="key", viewonly=False)
     # Key is a parent to a many to many relationship between Key and Requests
     # Many to many relationship with requests
-    requests_list: [Request] = relationship("Request", back_populates="key", viewonly=False)
+    requests_list: [Requests] = relationship("Request", back_populates="key", viewonly=False)
 
     # Constructor
-    def __init__(self, original_hook: Hook):
+    def __init__(self, original_hook: Hooks):
         self.key_number = original_hook.hook_number
         self.requests_list = []
 

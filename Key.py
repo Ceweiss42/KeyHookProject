@@ -2,8 +2,6 @@ from sqlalchemy import Column, Integer, Identity, Float, \
     String, UniqueConstraint, ForeignKey
 from sqlalchemy.orm import relationship
 
-from Hook import Hooks
-from DoorName import DoorNames
 from Request import Requests
 
 from orm_base import Base
@@ -21,7 +19,7 @@ class Keys(Base):
     requests_list: [Requests] = relationship("Request", back_populates="key", viewonly=False)
 
     # Constructor
-    def __init__(self, original_hook: Hooks):
+    def __init__(self, original_hook):
         self.key_number = original_hook.hook_number
         self.requests_list = []
 

@@ -3,6 +3,7 @@ from sqlalchemy import Column, Integer, Identity, Float, \
 from sqlalchemy.orm import relationship
 from HookDoor import HookDoors
 from orm_base import Base
+from Key import Keys
 
 
 class Hooks(Base):
@@ -13,6 +14,7 @@ class Hooks(Base):
     # Hook does not have a candidate key
     # Hook is not a child to a relationship.
     door_list: [HookDoors] = relationship("HookDoor", back_populates="hook", viewonly=False)
+    r_key: [Keys] = relationship("Request", back_populates="key", viewonly=False)
 
     def __init__(self, hook_number: Integer):
         self.hook_number = hook_number

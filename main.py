@@ -48,33 +48,26 @@ if __name__ == '__main__':
     # those tables for us.
     metadata.create_all(bind=engine)
 
-    """
-    southDoorName: DoorName = DoorName("South")
-    northDoorName: DoorName = DoorName("North")
-    VEC: Building = Building("VEC")
-    standardRoom: Room = Room(419, VEC)
-    standardDoorA: Door = Door(southDoorName, standardRoom"""
-
     # populate the building Table
-    building1: Buildings("Engineering")
-    building2: Buildings("Psychology")
-    building3: Buildings("Science")
-    building4: Buildings("Metal Shop")
-    building5: Buildings("Lecture Hall")
+    building1 = Buildings("Engineering")
+    building2 = Buildings("Psychology")
+    building3 = Buildings("Science")
+    building4 = Buildings("Metal Shop")
+    building5 = Buildings("Lecture Hall")
 
     # populate the employee table
-    employee1: Employees("Ed", "Aguilar")
-    employee2: Employees("Cam", "Weiss")
-    employee3: Employees("Jim", "Ha")
-    employee4: Employees("Jeff", "Lucena")
+    employee1 = Employees("Ed", "Aguilar")
+    employee2 = Employees("Cam", "Weiss")
+    employee3 = Employees("Jim", "Ha")
+    employee4 = Employees("Jeff", "Lucena")
 
     # populate the DoorName table
-    doorname1: DoorNames("North")
-    doorname2: DoorNames("South")
-    doorname3: DoorNames("East")
-    doorname4: DoorNames("West")
-    doorname5: DoorNames("Front")
-    doorname6: DoorNames("Back")
+    doorname1 = DoorNames("North")
+    doorname2 = DoorNames("South")
+    doorname3 = DoorNames("East")
+    doorname4 = DoorNames("West")
+    doorname5 = DoorNames("Front")
+    doorname6 = DoorNames("Back")
 
 
 

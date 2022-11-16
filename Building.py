@@ -3,9 +3,9 @@ from sqlalchemy import Column, Integer, Identity, Float, \
 from sqlalchemy.orm import relationship
 
 from orm_base import Base
-from Room import Room
+from Room import Rooms
 
-class Building(Base):
+class Buildings(Base):
     __tablename__ = "buildings"
     building_name = Column('building_name', String(40), nullable=False, primary_key=True)
     #relationship between building to room

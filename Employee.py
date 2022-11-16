@@ -3,10 +3,10 @@ from sqlalchemy import Column, Integer, Identity, Float, \
 from sqlalchemy.orm import relationship
 
 from orm_base import Base
-from Request import Request
+from Request import Requests
 
 
-class Employee(Base):
+class Employees(Base):
     __tablename__ = "employees"
     employee_id = Column('employee_id', Integer, Identity(start=1, cycle=True),
                         nullable=False, primary_key=True)
@@ -17,7 +17,7 @@ class Employee(Base):
     # Employee does not have a candidate key
     # Employee is one of the parents in a many to many relationship.
     # Many to Many relationship with Student Requests
-    requests_list: [Request] = relationship("Request", back_populates="employee", viewonly=False)
+    requests_list: [Requests] = relationship("Request", back_populates="employee", viewonly=False)
 
     #Constructor
     def __init__(self, first_name: String, last_name: String):
@@ -36,7 +36,7 @@ class Employee(Base):
                 print("Request already exist.")
                 return
         # Create an instance of the junction table class for this relationship.
-        employee_request = Request(self, request)
+        employee_request = Requests(self, request)
         # Update this move to reflect that we have this request.
         request.employee_list.append(employee_request)
         # Update the genre to reflect this request.

@@ -3,10 +3,11 @@ from sqlalchemy import Column, Integer, Identity, Float, \
 from sqlalchemy.orm import relationship
 
 from orm_base import Base
-from Building import Building
+from Request import Requests
+from Employee import Employees
 
 
-class Room(Base):
+class Rooms(Base):
     __tablename__ = "rooms"
     room_number = Column("room_number", Integer, nullable=False, primary_key=True)
     building_name = Column('building_name', String(40), ForeignKey('buildings.building_name'),
@@ -20,12 +21,12 @@ class Room(Base):
     # Many to Many relationship
     request_list: [Request] = relationship("Request", back_populates="room", viewonly=False)
 
-    def __init__(self, room_number: Integer, building: Building):
+    def __init__(self, room_number: Integer, building_name: String(40)):
         self.room_number = room_number
-        self.building_name = building.building_name
+        self.building_name = building_name
         self.request_list = []
 
-    def add_request(self, request: Request):
+    def add_request(self, request: Requests, employee: Employees):
         # make sure this request is non already on the list.
         for next_request in self.request_list:
             if next_request == request:
@@ -33,7 +34,7 @@ class Room(Base):
                 print("Request already exist.")
                 return
         # Create an instance of the junction table class for this relationship.
-        room_request = Request(employee, self)
+        room_request = Requests(employee, self)
         # Update this move to reflect that we have this request.
         employee.add_request(room_request)
         # Update the genre to reflect this request.

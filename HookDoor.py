@@ -3,11 +3,9 @@ from sqlalchemy import Column, Integer, Identity, Float, \
 from sqlalchemy.orm import relationship
 
 from orm_base import Base
-from Hook import Hook
-from Door import Door
 
 
-class HookDoor(Base):
+class HookDoors(Base):
     __tablename__ = "hook_doors"
     door_name = Column('door_name', String(20), ForeignKey('doors.door_name'), nullable=False, primary_key=True)
     room_number = Column('room_number', Integer, ForeignKey('rooms.room_number'), nullable=False, primary_key=True)
@@ -23,7 +21,7 @@ class HookDoor(Base):
     # Hookdoor does not have a candidate key
 
     # Constructor
-    def __init__(self, hook: Hook, door: Door):
+    def __init__(self, hook, door):
         self.hook = hook.hook_number
         self.door = door.door_name
 

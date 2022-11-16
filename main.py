@@ -21,11 +21,11 @@ from db_connection import Session, engine
 # that uses Base as its supertype will show up in the postgres.demo schema.
 from orm_base import metadata
 import logging
-from DoorName import DoorName
-from Door import Door
-from Room import Room
-from Building import Building
-from Employee import Employee
+from DoorName import DoorNames
+from Door import Doors
+from Room import Rooms
+from Building import Buildings
+from Employee import Employees
 
 from sqlalchemy import Column, String, Integer, Float, UniqueConstraint, \
     Identity, ForeignKey, distinct, bindparam
@@ -56,25 +56,25 @@ if __name__ == '__main__':
     standardDoorA: Door = Door(southDoorName, standardRoom"""
 
     # populate the building Table
-    building1: Building("Engineering")
-    building2: Building("Psychology")
-    building3: Building("Science")
-    building4: Building("Metal Shop")
-    building5: Building("Lecture Hall")
+    building1: Buildings("Engineering")
+    building2: Buildings("Psychology")
+    building3: Buildings("Science")
+    building4: Buildings("Metal Shop")
+    building5: Buildings("Lecture Hall")
 
     # populate the employee table
-    employee1: Employee("Ed", "Aguilar")
-    employee2: Employee("Cam", "Weiss")
-    employee3: Employee("Jim", "Ha")
-    employee4: Employee("Jeff", "Lucena")
+    employee1: Employees("Ed", "Aguilar")
+    employee2: Employees("Cam", "Weiss")
+    employee3: Employees("Jim", "Ha")
+    employee4: Employees("Jeff", "Lucena")
 
     # populate the DoorName table
-    doorname1: DoorName("North")
-    doorname2: DoorName("South")
-    doorname3: DoorName("East")
-    doorname4: DoorName("West")
-    doorname5: DoorName("Front")
-    doorname6: DoorName("Back")
+    doorname1: DoorNames("North")
+    doorname2: DoorNames("South")
+    doorname3: DoorNames("East")
+    doorname4: DoorNames("West")
+    doorname5: DoorNames("Front")
+    doorname6: DoorNames("Back")
 
 
     # Do our database work within a context.  This makes sure that the session gets closed

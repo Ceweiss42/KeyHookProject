@@ -22,7 +22,7 @@ class Doors(Base):
 
     # Building does not have a candidate key
     # One-to-many relationship between DoorName and Door
-    door_name = relationship("Door", back_populates="doors", viewonly=False)
+    r_door_name = relationship("Door", back_populates="doors", viewonly=False)
     # One-to-many relationship between Room and Door
     rooms_doors = relationship("Door", back_populates="room", viewonly=False)
     rooms_building_name_doors = relationship("Door", back_populates="building_name", viewonly=False)

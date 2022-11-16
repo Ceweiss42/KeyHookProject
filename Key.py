@@ -15,7 +15,7 @@ class Keys(Base):
 
     # Key does not have a candidate key
     # One to many relationship between hook and key
-    hook_key = relationship("Key", back_populates="key_number", viewonly=False)
+    hook_key = relationship("Hook", back_populates="key", viewonly=False)
     # Key is a parent to a many to many relationship between Key and Requests
     # Many to many relationship with requests
     requests_list: [Requests] = relationship("Request", back_populates="key", viewonly=False)

@@ -19,7 +19,7 @@ class Rooms(Base):
 
     # Building does not have a candidate key
     # Many to Many relationship
-    request_list: [Request] = relationship("Request", back_populates="room", viewonly=False)
+    request_list: [Requests] = relationship("Request", back_populates="room", viewonly=False)
 
     def __init__(self, room_number: Integer, building_name: String(40)):
         self.room_number = room_number

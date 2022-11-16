@@ -2,13 +2,8 @@ from sqlalchemy import Column, Integer, Identity, Float, \
     String, UniqueConstraint, ForeignKey, DateTime
 from sqlalchemy.orm import relationship
 
-from Hook import Hooks
-from DoorName import DoorNames
-from Request import Requests
+
 from KeyIssuance import KeyIssuances
-from Employee import Employees
-from Room import Rooms
-from Key import Keys
 
 from orm_base import Base
 
@@ -21,12 +16,12 @@ class Requests(Base):
     key_number = Column('key_number', Integer, ForeignKey('keys.key_number'), nullable=False, primary_key=False)
     request_id = Column('request_id', Integer, Identity(start=1, cycle=True), nullable=False, primary_key=True)
 
-    key_issuances_list : [KeyIssuances] = relationship("KeyIssuance", back_populates='request', view_only=False)
+    key_issuances_list : [KeyIssuances] = relationship("KeyIssuance", back_populates='request', viewonly=False)
     r_employee = relationship('Employee', back_populates='request', viewonly=False)
     r_key = relationship('Key', back_populates='request', viewonly=False)
     r_room = relationship('Room', back_populates='request', viewonly=False)
 
-    def __init__(self, employee: Employees, room: Rooms, key: Keys, reqDate: DateTime):
+    def __init__(self, employee, room, key, reqDate):
         self.room_number = room.room_number
         self.building_name = room.building_name
         self.employee_id = employee.employee_id

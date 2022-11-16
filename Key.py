@@ -35,10 +35,6 @@ class Keys(Base):
                 # message stating that the request has already made
                 print("Request already exist.")
                 return
-        # Create an instance of the junction table class for this relationship.
-        key_request = Request(self, request)
-        # Update this move to reflect that we have this request.
-        request.key_list.append(key_request)
         # Update the genre to reflect this request.
-        self.requests_list.append(key_request)
+        self.requests_list.append(request)
 

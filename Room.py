@@ -22,6 +22,8 @@ class Room(Base):
 
     # Many to Many relationship
     request_list: [Request] = relationship("Request", back_populates="room", viewonly=False)
+    #unique constraint
+    table_args = (UniqueConstraint('room_number', 'building_name', 'request_id', name='request_uk_01'),)
 
     def __init__(self, room_number: Integer, building):
         self.room_number = room_number

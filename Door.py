@@ -20,12 +20,14 @@ class Doors(Base):
     building_name = Column('building_name', String(40), ForeignKey('buildings.building_name'),
                            nullable=False, primary_key=True)
 
+    __table_args__ = (UniqueConstraint('building_name', 'room_number', 'door_name', name='door_uk_01'),)
+
     # Building does not have a candidate key
     # One-to-many relationship between DoorName and Door
-    r_door_name = relationship("Door", back_populates="doors", viewonly=False)
+    r_door_name = relationship("DoorName", back_populates="door", viewonly=False)
     # One-to-many relationship between Room and Door
-    rooms_doors = relationship("Door", back_populates="room", viewonly=False)
-    rooms_building_name_doors = relationship("Door", back_populates="building_name", viewonly=False)
+    rooms_doors = relationship("Room", back_populates="door", viewonly=False)
+    rooms_building_name_doors = relationship("Room", back_populates="door", viewonly=False)
     # Many-to-many relationship with Hook
     hook_list: [HookDoors] = relationship("HookDoor", back_populates="door", viewonly=False)
 

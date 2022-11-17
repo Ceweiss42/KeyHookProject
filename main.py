@@ -22,8 +22,8 @@ from db_connection import Session, engine
 from orm_base import metadata
 import logging
 from DoorName import DoorNames
-from Door import Door
-from Room import Room
+from Door import Doors
+from Room import Rooms
 from Building import Buildings
 from Employee import Employees
 

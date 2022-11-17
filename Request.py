@@ -9,6 +9,7 @@ from orm_base import Base
 
 class Requests(Base):
     __tablename__ = "requests"
+
     room_number = Column('room_number', Integer, ForeignKey('rooms.room_number'), nullable=False, primary_key=False)
     building_name = Column('building_name', String(40), ForeignKey('rooms.building_name'), nullable=False, primary_key=False)
     employee_id = Column('employee_id', Integer, ForeignKey('employees.employee_id'), nullable=False, primary_key=False)
@@ -20,6 +21,8 @@ class Requests(Base):
     r_employee = relationship('Employee', back_populates='request', viewonly=False)
     r_key = relationship('Key', back_populates='request', viewonly=False)
     r_room = relationship('Room', back_populates='request', viewonly=False)
+
+
 
     def __init__(self, employee, room, key, reqDate):
         self.room_number = room.room_number

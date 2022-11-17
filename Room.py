@@ -1,16 +1,18 @@
 from sqlalchemy import Column, Integer, Identity, Float, \
-    String, UniqueConstraint, ForeignKey
+    String, UniqueConstraint, ForeignKey, PrimaryKeyConstraint
 from sqlalchemy.orm import relationship
-from Request import Request
+from Request import Requests
 from orm_base import Base
-from Building import Building
 
 
-class Room(Base):
+class Rooms(Base):
     __tablename__ = "rooms"
     room_number = Column("room_number", Integer, nullable=False, primary_key=True)
     building_name = Column('building_name', String(40), ForeignKey('buildings.building_name'),
-                           nullable=False, primary_key=True)
+                           nullable=False)
+    __table_args__ = (UniqueConstraint('building_name', name='room_uk_01'),)
+
+
     # One to many relationship between building and room
     r_building = relationship("Building", back_populates="room", viewonly=False)
     # One to many relationship between room and door
@@ -21,9 +23,9 @@ class Room(Base):
     # Building does not have a candidate key
 
     # Many to Many relationship
-    request_list: [Request] = relationship("Request", back_populates="room", viewonly=False)
+    request_list: [Requests] = relationship("Request", back_populates="room", viewonly=False)
     #unique constraint
-    table_args = (UniqueConstraint('room_number', 'building_name', 'request_id', name='request_uk_01'),)
+
 
     def __init__(self, room_number: Integer, building):
         self.room_number = room_number
@@ -38,8 +40,8 @@ class Room(Base):
                 print("Request already exist.")
                 return
         # Create an instance of the junction table class for this relationship.
-        room_request = Request(employee, self)
+        #room_request = Requests(employee, self)
         # Update this move to reflect that we have this request.
-        employee.add_request(room_request)
+        #employee.add_request(room_request)
         # Update the genre to reflect this request.
-        self.request_list.append(room_request)
+        self.request_list.append(request)

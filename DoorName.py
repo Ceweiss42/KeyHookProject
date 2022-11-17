@@ -2,7 +2,7 @@ from sqlalchemy import Column,   String
 
 from orm_base import Base
 
-class DoorName(Base):
+class DoorNames(Base):
     __tablename__ = "door_names"
     door_name = Column('door_name', String(20), nullable=False, primary_key=True)
 

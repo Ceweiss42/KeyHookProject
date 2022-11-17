@@ -2,16 +2,16 @@ from sqlalchemy import Column, Integer, Identity, Float, \
     String, UniqueConstraint, ForeignKey
 from sqlalchemy.orm import relationship
 
-from Hook import Hook
-from HookDoor import HookDoor
+from Hook import Hooks
+from HookDoor import HookDoors
 
 from orm_base import Base
 
-from DoorName import DoorName
-from Room import Room
+from DoorName import DoorNames
+from Room import Rooms
 
 
-class Door(Base):
+class Doors(Base):
     __tablename__ = "doors"
     door_name = Column('door_name', String(20), ForeignKey('door_names.door_name'),
                        nullable=False, primary_key=True)
@@ -22,15 +22,15 @@ class Door(Base):
 
     # Building does not have a candidate key
     # One-to-many relationship between DoorName and Door
-    door_name = relationship("Door", back_populates="doors", viewonly=False)
+    r_door_name = relationship("Door", back_populates="doors", viewonly=False)
     # One-to-many relationship between Room and Door
     rooms_doors = relationship("Door", back_populates="room", viewonly=False)
     rooms_building_name_doors = relationship("Door", back_populates="building_name", viewonly=False)
     # Many-to-many relationship with Hook
-    hook_list: [HookDoor] = relationship("HookDoor", back_populates="door", viewonly=False)
+    hook_list: [HookDoors] = relationship("HookDoor", back_populates="door", viewonly=False)
 
     # Constructor
-    def __init__(self, door_name: DoorName, room_reference: Room):
+    def __init__(self, door_name: DoorNames, room_reference: Rooms):
         self.door_name = door_name.door_name
         self.room_number = room_reference.room_number
         self.building_name = room_reference.building_name
@@ -39,7 +39,9 @@ class Door(Base):
     """Add an door to the list of hooks.
         @param door The instance of door tied to this hook."""
 
-    def add_hook(self, hook: Hook):
+    #testing
+
+    def add_hook(self, hook: Hooks):
         # make sure this request is non already on the list.
         for next_hook in self.hook_list:
             if next_hook == hook:
@@ -47,7 +49,7 @@ class Door(Base):
                 print("Hook already exist.")
                 return
         # Create an instance of the junction table class for this relationship.
-        hook_door = HookDoor(hook, self)
+        hook_door = HookDoors(hook, self)
         # Update this move to reflect that we have this request.
         hook.add_door(hook_door)
         # Update the genre to reflect this request.

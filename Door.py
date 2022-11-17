@@ -24,7 +24,8 @@ class Doors(Base):
                            nullable=False, primary_key=True)
 
 
-    __table_args__ = (UniqueConstraint('building_name', 'room_number', 'door_name', name='door_uk_01'),
+#UniqueConstraint('building_name', 'room_number', 'door_name', name='door_uk_01'),
+    __table_args__ = (
                       ForeignKeyConstraint(['room_number', 'building_name'], ['rooms.room_number', 'rooms.building_name']),
                       ForeignKeyConstraint(['door_name'], ['door_names.door_name']),)
 

@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, Identity, Float, \
-    String, UniqueConstraint, ForeignKey, DateTime
+    String, UniqueConstraint, ForeignKey, DateTime, ForeignKeyConstraint
 from sqlalchemy.orm import relationship
 
 
@@ -10,12 +10,16 @@ from orm_base import Base
 class Requests(Base):
     __tablename__ = "requests"
 
-    room_number = Column('room_number', Integer, ForeignKey('rooms.room_number'), nullable=False, primary_key=False)
-    building_name = Column('building_name', String(40), ForeignKey('rooms.building_name'), nullable=False, primary_key=False)
-    employee_id = Column('employee_id', Integer, ForeignKey('employees.employee_id'), nullable=False, primary_key=False)
+    room_number = Column('room_number', Integer, nullable=False, primary_key=False)
+    building_name = Column('building_name', String(40), nullable=False, primary_key=False)
+    employee_id = Column('employee_id', Integer, nullable=False, primary_key=False)
     requested_date = Column('requested_date', DateTime, nullable=False, primary_key=False)
-    key_number = Column('key_number', Integer, ForeignKey('keys.key_number'), nullable=False, primary_key=False)
+    key_number = Column('key_number', Integer, nullable=False, primary_key=False)
     request_id = Column('request_id', Integer, Identity(start=1, cycle=True), nullable=False, primary_key=True)
+
+    __table_args__ = (ForeignKeyConstraint(['room_number', 'building_name'], ['rooms.room_number', 'rooms.building_name']),
+                      ForeignKeyConstraint(['employee_id'], ['employees.employee_id']),
+                      ForeignKeyConstraint(['key_number'], ['keys.key_number']),)
 
     r_key_issuance = relationship("KeyIssuance", back_populates='request', viewonly=False)
     r_employee = relationship('Employee', back_populates='requests_list', viewonly=False)

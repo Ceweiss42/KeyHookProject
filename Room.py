@@ -13,8 +13,7 @@ class Rooms(Base):
                            nullable=False)
 
 
-    __table_args__ = (UniqueConstraint('building_name', name='room_uk_01'),
-                      ForeignKeyConstraint(['building_name'], ['buildings.building_name']))
+    __table_args__ = (UniqueConstraint('building_name', name='room_uk_01'),)
 
 
     # One to many relationship between building and room

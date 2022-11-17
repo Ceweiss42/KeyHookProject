@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, Identity, Float, \
-    String, UniqueConstraint, ForeignKey, PrimaryKeyConstraint
+    String, UniqueConstraint, ForeignKey, PrimaryKeyConstraint, ForeignKeyConstraint
 from sqlalchemy.orm import relationship
 from Request import Requests
 from orm_base import Base
@@ -8,9 +8,13 @@ from orm_base import Base
 class Rooms(Base):
     __tablename__ = "rooms"
     room_number = Column("room_number", Integer, nullable=False, primary_key=True)
+
     building_name = Column('building_name', String(40), ForeignKey('buildings.building_name'),
                            nullable=False)
-    __table_args__ = (UniqueConstraint('building_name', name='room_uk_01'),)
+
+
+    __table_args__ = (UniqueConstraint('building_name', name='room_uk_01'),
+                      ForeignKeyConstraint(['building_name'], ['buildings.building_name']))
 
 
     # One to many relationship between building and room

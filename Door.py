@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, Identity, Float, \
-    String, UniqueConstraint, ForeignKey
+    String, UniqueConstraint, ForeignKey, ForeignKeyConstraint
 from sqlalchemy.orm import relationship
 
 from Hook import Hooks
@@ -13,14 +13,20 @@ from Room import Rooms
 
 class Doors(Base):
     __tablename__ = "doors"
-    door_name = Column('door_name', String(20), ForeignKey('door_names.door_name'),
+    # ForeignKey('door_names.door_name'),
+    door_name = Column('door_name', String(20),
                        nullable=False, primary_key=True)
-    room_number = Column('room_number', Integer, ForeignKey('rooms.room_number'),
+    # ForeignKey('rooms.room_number'),
+    room_number = Column('room_number', Integer,
                          nullable=False, primary_key=True)
-    building_name = Column('building_name', String(40), ForeignKey('buildings.building_name'),
+    #ForeignKey('rooms.building_name'),
+    building_name = Column('building_name', String(40),
                            nullable=False, primary_key=True)
 
-    __table_args__ = (UniqueConstraint('building_name', 'room_number', 'door_name', name='door_uk_01'),)
+
+    __table_args__ = (UniqueConstraint('building_name', 'room_number', 'door_name', name='door_uk_01'),
+                      ForeignKeyConstraint(['room_number', 'building_name'], ['rooms.room_number', 'rooms.building_name']),
+                      ForeignKeyConstraint(['door_name'], ['door_names.door_name']),)
 
     # Building does not have a candidate key
     # One-to-many relationship between DoorName and Door

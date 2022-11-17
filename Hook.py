@@ -14,7 +14,7 @@ class Hooks(Base):
     # Hook does not have a candidate key
     # Hook is not a child to a relationship.
     door_list: [HookDoors] = relationship("HookDoor", back_populates="hook", viewonly=False)
-    r_key: [Keys] = relationship("Request", back_populates="key", viewonly=False)
+    r_key = relationship("Key", back_populates="hook", viewonly=False)
 
     def __init__(self, hook_number: Integer):
         self.hook_number = hook_number

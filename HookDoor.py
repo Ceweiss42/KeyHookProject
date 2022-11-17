@@ -12,7 +12,6 @@ class HookDoors(Base):
     building_name = Column('building_name', String(40), ForeignKey('doors.building_name'), nullable=False,
                            primary_key=True)
     hook_number = Column('hook_number', Integer, ForeignKey('hooks.hook_number'), nullable=False, primary_key=True)
-    __table_args__ = (UniqueConstraint('building_name', 'door_name', 'room_number', name='hook_door_uk_01'),)
 
     """This is a bi-directional relationship between Hook and Door."""
     hook = relationship("Hook", back_populates='door_list')

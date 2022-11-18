@@ -8,6 +8,7 @@ from Building import Building
 from Room import Room
 from DoorName import DoorName
 from Door import Door
+from Hook import Hooks
 
 import sqlalchemy.sql.functions
 from db_connection import Session, engine
@@ -49,6 +50,9 @@ if __name__ == '__main__':
         doorName4: DoorName = DoorName("East")
         # create a door
         door1: Door = Door(doorName1, room1)
+        door2: Door = Door(doorName2, room1)
+        # create a hook
+        hook1: Hooks = Hooks(1)
 
         # add buildings
         sess.add(building1)
@@ -63,6 +67,8 @@ if __name__ == '__main__':
         sess.add(doorName4)
         #add a door
         sess.add(door1)
+        #add a hook
+        sess.add(hook1)
 
         sess.commit()
 

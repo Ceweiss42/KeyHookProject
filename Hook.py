@@ -1,9 +1,10 @@
 from sqlalchemy import Column, Integer, Identity, Float, \
     String, UniqueConstraint
 from sqlalchemy.orm import relationship
-from HookDoor import HookDoors
 from orm_base import Base
-from Key import Keys
+
+
+# from Key import Keys
 
 
 class Hooks(Base):
@@ -13,16 +14,19 @@ class Hooks(Base):
 
     # Hook does not have a candidate key
     # Hook is not a child to a relationship.
-    door_list: [HookDoors] = relationship("HookDoor", back_populates="hook", viewonly=False)
-    r_key = relationship("Key", back_populates="hook", viewonly=False)
+    #   door_list: [HookDoors] = relationship("HookDoor", back_populates="hook", viewonly=False)
+    #   key = relationship("Key", back_populates="hook", viewonly=False)
 
     def __init__(self, hook_number: Integer):
         self.hook_number = hook_number
-        self.door_list = []
 
-    """Add an door to the list of hooks.
-        @param door The instance of door tied to this hook."""
 
+#        self.door_list = []
+
+
+#    """#Add an door to the list of hooks.
+#        @param door The instance of door tied to this hook."""
+"""
     def add_door(self, door):
         # make sure this request is non already on the list.
         for next_door in self.door_list:
@@ -36,3 +40,6 @@ class Hooks(Base):
         door.hook_list.append(hook_door)
         # Update the genre to reflect this request.
         self.door_list.append(hook_door)
+
+
+"""

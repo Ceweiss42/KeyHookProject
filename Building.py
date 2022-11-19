@@ -5,12 +5,12 @@ from sqlalchemy.orm import relationship
 from orm_base import Base
 #from Room import Room
 
-class Building(Base):
+class Buildings(Base):
     __tablename__ = "buildings"
     building_name = Column('building_name', String(40), nullable=False, primary_key=True)
     #relationship between building to room
     # NOTE: the r_building naming convention caused an error.  removing it allowed the relationship to form properly. EA
-    rooms = relationship("Rooms", back_populates="building")
+    rooms = relationship("Rooms", back_populates="buildings")
     # Building does not have a candidate key
 
 

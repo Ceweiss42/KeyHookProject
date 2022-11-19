@@ -23,6 +23,8 @@ class Requests(Base):
     employees = relationship('Employees', back_populates='requests', viewonly=False)
     rooms = relationship('Rooms', back_populates='requests', viewonly=False)
     keys = relationship("Keys", back_populates="requests")
+    returnkeys = relationship("ReturnKeys", back_populates="requests")
+    losskeys = relationship("LossKeys", back_populates="requests")
 
 
 

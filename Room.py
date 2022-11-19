@@ -3,10 +3,10 @@ from sqlalchemy import Column, Integer, Identity, Float, \
 from sqlalchemy.orm import relationship
 
 from sqlalchemy.orm import relationship
-from Building import Building
+from Building import Buildings
 
 from orm_base import Base
-from Building import Building
+from Building import Buildings
 
 
 class Room(Base):
@@ -18,7 +18,7 @@ class Room(Base):
 
     # One to many relationship between building and room
     # NOTE: the r_building naming convention caused an error.  removing it allowed the relationship to form properly. EA
-    building = relationship("Buildings", back_populates="rooms")
+    buildings = relationship("Buildings", back_populates="rooms")
     doors = relationship("Doors", back_populates="rooms")
     requests = relationship("Requests", back_populates="rooms")
 

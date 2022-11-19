@@ -4,7 +4,7 @@ from pprint import pprint
 from sqlalchemy import Column, String, Integer, Float, UniqueConstraint, \
     Identity, ForeignKey, distinct, bindparam
 from sqlalchemy.orm import relationship, backref
-from Building import Building
+from Building import Buildings
 from Room import Room
 from DoorName import DoorName
 from Door import Door
@@ -43,7 +43,7 @@ if __name__ == '__main__':
         print("Inside the session...")
 
         # create a building variable
-        building1: Building = Building("Bob Murphy Access Center")
+        building1: Buildings = Buildings("Bob Murphy Access Center")
         sess.add(building1)
         dn1: DoorName = DoorName("East")
         sess.add(dn1)

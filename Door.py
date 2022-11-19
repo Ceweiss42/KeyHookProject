@@ -11,13 +11,13 @@ class Doors(Base):
     __tablename__ = "doors"
     door_name = Column('door_name', String(20), ForeignKey('door_names.door_name'),
                        nullable=False, primary_key=True)
-    room_number = Column('room_number', Integer,  # ForeignKey('rooms.room_number'),
+    room_number = Column('room_number', Integer,  #ForeignKey('rooms.room_number'),
                          nullable=False, primary_key=True)
     building_name = Column('building_name', String(40),  # ForeignKey('rooms.building_name'),
                            nullable=False, primary_key=True)
     # Foreign Key Constraint for Rooms becaues it has more than one column coming from rooms
-    ForeignKeyConstraint(['room_number', 'building_name'], ['rooms.room_number', 'rooms.building_name'],
-                         name="fk_doors_rooms_01")
+    __table_args__ = (ForeignKeyConstraint(['room_number', 'building_name'], ['rooms.room_number', 'rooms.building_name'],
+                         name="fk_doors_rooms_01"),)
 
     # Building does not have a candidate key
     # One-to-many relationship between DoorName and Door

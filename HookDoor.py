@@ -1,7 +1,6 @@
 from sqlalchemy import Column, Integer, Identity, Float, \
     String, UniqueConstraint, ForeignKey, ForeignKeyConstraint
 from sqlalchemy.orm import relationship
-from Door import Doors
 from orm_base import Base
 
 
@@ -15,8 +14,8 @@ class HookDoors(Base):
 
     hook_number = Column('hook_number', Integer, ForeignKey('hooks.hook_number'), nullable=False, primary_key=True)
 
-    ForeignKeyConstraint(['door_name', 'room_number', 'building_name'], ['doors.door_name', 'doors.room_number', 'doors.building_name'],
-                         name="fk_hook_doors_rooms_01")
+    __table_args__ = (ForeignKeyConstraint(['door_name', 'room_number', 'building_name'], ['doors.door_name', 'doors.room_number', 'doors.building_name'],
+                         name="fk_hook_doors_rooms_01"),)
     #ForeignKeyConstraint(['door_name'], ['doors.door_name'], name='fk_hook_doors_doors_01')
 
 

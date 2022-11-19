@@ -184,4 +184,18 @@ if __name__ == '__main__':
 
         sess.commit()
 
+        req1: Requests = Requests(employee1, room6, key5)
+        req2: Requests = Requests(employee5, room5, key3)
+        req3: Requests = Requests(employee3, room2, key1)
+        req4: Requests = Requests(employee2, room1, key1)
+        req5: Requests = Requests(employee3, room4, key4)
+        req6: Requests = Requests(employee4, room3, key2)
+        sess.add(req1)
+        sess.add(req2)
+        sess.add(req3)
+        sess.add(req4)
+        sess.add(req5)
+        sess.add(req6)
+        sess.commit()
+
 print("Exiting normally.")

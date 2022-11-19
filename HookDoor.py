@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, Identity, Float, \
-    String, UniqueConstraint, ForeignKey
+    String, UniqueConstraint, ForeignKey, ForeignKeyConstraint
 from sqlalchemy.orm import relationship
 
 from orm_base import Base
@@ -7,11 +7,18 @@ from orm_base import Base
 
 class HookDoors(Base):
     __tablename__ = "hook_doors"
-    door_name = Column('door_name', String(20), ForeignKey('doors.door_name'), nullable=False, primary_key=True)
-    room_number = Column('room_number', Integer, ForeignKey('rooms.room_number'), nullable=False, primary_key=True)
-    building_name = Column('building_name', String(40), ForeignKey('doors.building_name'), nullable=False,
-                           primary_key=True)
+    door_name = Column('door_name', String(20), #ForeignKey('doors.door_name'),
+                        nullable=False, primary_key=True)
+    room_number = Column('room_number', Integer,# ForeignKey('rooms.room_number'),
+                        nullable=False, primary_key=True)
+    building_name = Column('building_name', String(40), nullable=False, primary_key=True)
+
     hook_number = Column('hook_number', Integer, ForeignKey('hooks.hook_number'), nullable=False, primary_key=True)
+
+    ForeignKeyConstraint(['door_name', 'room_number', 'building_name'], ['doors.door_name', 'doors.room_number', 'doors.building_name'],
+                         name="fk_hook_doors_rooms_01")
+    #ForeignKeyConstraint(['door_name'], ['doors.door_name'], name='fk_hook_doors_doors_01')
+
 
     """This is a bi-directional relationship between Hook and Door."""
     hook = relationship("Hook", back_populates='door_list')

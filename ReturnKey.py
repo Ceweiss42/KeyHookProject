@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, Identity, Float, \
-    String, UniqueConstraint, ForeignKey, DateTime
+    String, UniqueConstraint, ForeignKey, DateTime, ForeignKeyConstraint
 from sqlalchemy.orm import relationship
 
 from KeyIssuance import KeyIssuances
@@ -9,11 +9,15 @@ from orm_base import Base
 
 class ReturnKeys(Base):
     __tablename__ = "return_keys"
-    key_issuance_loaned_out_date = Column('loaned_out_date', DateTime, ForeignKey('key_issuances.loaned_out_date'), nullable=False, primary_key=True)
-    key_issuance_request_id = Column('request_id', Integer, ForeignKey('key_issuances.request_id'), nullable=False, primary_key=True)
+    key_issuance_loaned_out_date = Column('loaned_out_date', DateTime, #ForeignKey('key_issuances.loaned_out_date'),
+                                          nullable=False, primary_key=True)
+    key_issuance_request_id = Column('request_id', Integer, #ForeignKey('key_issuances.request_id'),
+                                      nullable=False, primary_key=True)
     return_date = Column('return_date', DateTime, nullable=False, primary_key=True)
 
-    key_issuance = relationship("key_issuance", back_populates = "return_keys")
+    ForeignKeyConstraint(['loaned_out_date', 'request_id'],['key_issuances.loaned_out_date', 'key_issuances.request_id'],name="fk_returnkeys_keyissuances_01")
+
+    key_issuance = relationship("key_issuance", back_populates = "return_key")
 
     # Constructor
     def init(self, key_issuance: KeyIssuances, return_date: DateTime):

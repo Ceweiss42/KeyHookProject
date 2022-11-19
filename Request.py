@@ -21,10 +21,10 @@ class Requests(Base):
                       ForeignKeyConstraint(['employee_id'], ['employees.employee_id']),
                       ForeignKeyConstraint(['key_number'], ['keys.key_number']),)
 
-    r_key_issuance = relationship("KeyIssuance", back_populates='request', viewonly=False)
-    r_employee = relationship('Employee', back_populates='requests_list', viewonly=False)
-    r_key = relationship('Key', back_populates='requests_list', viewonly=False)
-    r_room = relationship('Room', back_populates='request_list', viewonly=False)
+    key_issuance = relationship("KeyIssuance", back_populates='request', viewonly=False)
+    employee = relationship('Employee', back_populates='requests_list', viewonly=False)
+    key = relationship('Key', back_populates='requests_list', viewonly=False)
+    room = relationship('Room', back_populates='request_list', viewonly=False)
 
 
 

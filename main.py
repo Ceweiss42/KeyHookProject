@@ -8,10 +8,12 @@ from Building import Building
 from Room import Room
 from DoorName import DoorName
 from Door import Door
+from Request import Requests
 from Hook import Hooks
 from HookDoor import HookDoors
 from Key import Keys
 from Employee import Employees
+from KeyIssuance import KeyIssuances
 
 import sqlalchemy.sql.functions
 from db_connection import Session, engine
@@ -25,7 +27,7 @@ if __name__ == '__main__':
     # use the logging factory to create our second logger.
     logging.getLogger("sqlalchemy.pool").setLevel(logging.DEBUG)
 
-   #  metadata.drop_all(bind=engine)  # start with a clean slate while in development
+    metadata.drop_all(bind=engine)  # start with a clean slate while in development
 
     # Create whatever tables are called for by our "Entity" classes.  The simple fact that
     # your classes that are subtypes of Base have been loaded by Python has populated
@@ -38,11 +40,16 @@ if __name__ == '__main__':
     # This way, we do not have memory leaks.
     with Session() as sess:
         sess.begin()
-        print("Inside the session, woo hoo.")
+        print("Inside the session...")
 
         # create a building variable
         building1: Building = Building("Bob Murphy Access Center")
-        building2: Building = Building("Hall of Science")
+        sess.add(building1)
+        dn1: DoorName = DoorName("East")
+        sess.add(dn1)
+
+
+        '''building2: Building = Building("Hall of Science")
         building3: Building = Building("Vivian Engineering Center")
         building4: Building = Building("Engineering and Computer Science")
         building5: Building = Building("Horn Center")
@@ -198,7 +205,7 @@ if __name__ == '__main__':
         sess.add(key10)
         sess.add(key11)
         sess.add(key12)
-        sess.add(key13)
+        sess.add(key13)'''
 
         sess.commit()
 

@@ -13,7 +13,7 @@ from Hook import Hooks
 from HookDoor import HookDoors
 from Key import Keys
 from Employee import Employees
-from KeyIssuance import KeyIssuances
+#from KeyIssuance import KeyIssuances
 
 import sqlalchemy.sql.functions
 from db_connection import Session, engine

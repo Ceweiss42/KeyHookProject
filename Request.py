@@ -3,8 +3,6 @@ from sqlalchemy import Column, Integer, Identity, Float, \
 from sqlalchemy.orm import relationship
 
 
-from KeyIssuance import KeyIssuances
-
 from orm_base import Base
 
 class Requests(Base):
@@ -21,10 +19,10 @@ class Requests(Base):
                       ForeignKeyConstraint(['employee_id'], ['employees.employee_id']),
                       ForeignKeyConstraint(['key_number'], ['keys.key_number']),)
 
-    key_issuance = relationship("KeyIssuance", back_populates='request', viewonly=False)
-    employee = relationship('Employee', back_populates='requests_list', viewonly=False)
-    key = relationship('Key', back_populates='requests_list', viewonly=False)
-    room = relationship('Room', back_populates='request_list', viewonly=False)
+    #key_issuance = relationship("KeyIssuance", back_populates='request', viewonly=False)
+    employees = relationship('Employees', back_populates='requests', viewonly=False)
+    rooms = relationship('Rooms', back_populates='requests', viewonly=False)
+    keys = relationship("Keys", back_populates="requests")
 
 
 
@@ -36,7 +34,7 @@ class Requests(Base):
         self.key_number = key.key_number
         self.key_issuances_list = []
 
-    def add_key_issuance(self, key_issuance : KeyIssuances):
+    def add_key_issuance(self, key_issuance):
         for next_ki in self.key_issuances_list:
             if next_ki == key_issuance:
                 print("THIS REQUEST HAS ALREADY BEEN FILLED")

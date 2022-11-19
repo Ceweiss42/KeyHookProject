@@ -13,10 +13,12 @@ class Keys(Base):
 
     # Key does not have a candidate key
     # One to many relationship between hook and key
-    hook_key = relationship("Hook", back_populates="key", viewonly=False)
+    hooks = relationship("Hooks", back_populates="keys")
     # Key is a parent to a many to many relationship between Key and Requests
     # Many to many relationship with requests
-    requests_list: [Requests] = relationship("Request", back_populates="key", viewonly=False)
+    #requests_list: [Requests] = relationship("Requests", back_populates="keys", viewonly=False)
+    requests = relationship("Requests", back_populates="keys")
+
 
     # Constructor
     def __init__(self, original_hook):

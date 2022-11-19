@@ -17,7 +17,9 @@ class Employees(Base):
     # Employee does not have a candidate key
     # Employee is one of the parents in a many to many relationship.
     # Many to Many relationship with Student Requests
-    requests_list: [Requests] = relationship("Request", back_populates="employee", viewonly=False)
+    #requests_list: [Requests] = relationship("Requests", back_populates="employee", viewonly=False)
+
+    requests = relationship("Requests", back_populates="employees")
 
     #Constructor
     def __init__(self, first_name: String, last_name: String):

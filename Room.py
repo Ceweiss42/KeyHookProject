@@ -18,7 +18,10 @@ class Room(Base):
 
     # One to many relationship between building and room
     # NOTE: the r_building naming convention caused an error.  removing it allowed the relationship to form properly. EA
-    building = relationship("Building", back_populates="room")
+    building = relationship("Buildings", back_populates="rooms")
+    doors = relationship("Doors", back_populates="rooms")
+    requests = relationship("Requests", back_populates="rooms")
+
  #   door = relationship("Door", back_populates="room")
 
     # Many to Many relationship

@@ -21,9 +21,9 @@ class HookDoors(Base):
 
 
     """This is a bi-directional relationship between Hook and Door."""
-    hook = relationship("Hook", back_populates='door_list')
+    hooks = relationship("Hooks", back_populates='doors_list')
     # movies_list is the name of the list of MovieGenre instances for the parent movie.
-    door = relationship("Door", back_populates='hook_list')
+    doors = relationship("Doors", back_populates='hooks_list')
 
     # Hookdoor does not have a candidate key
 

@@ -3,6 +3,7 @@ from sqlalchemy import Column, Integer, Identity, Float, \
 from sqlalchemy.orm import relationship
 from orm_base import Base
 from DoorName import DoorName
+from HookDoor import HookDoors
 
 
 class Door(Base):
@@ -19,9 +20,12 @@ class Door(Base):
 
     # Building does not have a candidate key
     # One-to-many relationship between DoorName and Door
-    doorname = relationship("DoorName", back_populates="door", viewonly=False)
+    doornames = relationship("DoorName", back_populates="doors", viewonly=False)
     # One-to-many relationship between Room and Door
     #room = relationship("Room", back_populates="door", viewonly=False)
+    rooms = relationship("Rooms", back_populates="doors")
+
+    hooks_list: [HookDoors] = relationship("HookDoors", back_populates="doors")
 
     #    #rooms_building_name_doors = relationship("Door", back_populates="room", viewonly=False)
 

@@ -20,7 +20,7 @@ class LossKeys(Base):
 
     ForeignKeyConstraint(['loaned_out_date', 'request_id'], ['key_issuances.loaned_out_date', 'key_issuances.request_id'], name="fk_losskeys_keyissuance_01")
 
-    key_issuance = relationship("key_issuance", back_populates = "loss_key")
+    #key_issuance = relationship("key_issuance", back_populates = "random")
 
     # Constructor
     def init(self, key_issuance: KeyIssuances, loss_date: DateTime):

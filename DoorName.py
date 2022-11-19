@@ -9,7 +9,7 @@ class DoorName(Base):
 
     # DoorName does not have a candidate key
     # DoorName is not a child to a relationship.
-    door = relationship("Door", back_populates="doorname", viewonly=False)
+    doors = relationship("Doors", back_populates="doornames", viewonly=False)
 
     # Constructor for instance of DoorName
     def __init__(self, door_name: String):

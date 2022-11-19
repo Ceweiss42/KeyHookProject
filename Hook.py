@@ -5,6 +5,7 @@ from orm_base import Base
 
 
 # from Key import Keys
+from HookDoor import HookDoors
 
 
 class Hooks(Base):
@@ -12,6 +13,9 @@ class Hooks(Base):
     hook_number = Column('hook_number', Integer, Identity(start=1, cycle=True),
                          nullable=False, primary_key=True)
 
+    doors_list: [HookDoors] = relationship("HookDoors", back_populates="hooks")
+
+    keys = relationship("Keys", back_populates="hooks")
     # Hook does not have a candidate key
     # Hook is not a child to a relationship.
     #   door_list: [HookDoors] = relationship("HookDoor", back_populates="hook", viewonly=False)

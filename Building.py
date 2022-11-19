@@ -10,7 +10,7 @@ class Building(Base):
     building_name = Column('building_name', String(40), nullable=False, primary_key=True)
     #relationship between building to room
     # NOTE: the r_building naming convention caused an error.  removing it allowed the relationship to form properly. EA
-    room = relationship("Room", back_populates="building")
+    rooms = relationship("Rooms", back_populates="building")
     # Building does not have a candidate key
 
 

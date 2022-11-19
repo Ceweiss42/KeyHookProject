@@ -31,10 +31,9 @@ class Hooks(Base):
 
 #    """#Add an door to the list of hooks.
 #        @param door The instance of door tied to this hook."""
-"""
     def add_door(self, door):
         # make sure this request is non already on the list.
-        for next_door in self.door_list:
+        for next_door in self.doors_list:
             if next_door == door:
                 # message stating that the request has already made
                 print("Door already exist.")
@@ -42,9 +41,7 @@ class Hooks(Base):
         # Create an instance of the junction table class for this relationship.
         hook_door = HookDoors(self, door)
         # Update this move to reflect that we have this request.
-        door.hook_list.append(hook_door)
+        door.hooks_list.append(hook_door)
         # Update the genre to reflect this request.
-        self.door_list.append(hook_door)
+        self.doors_list.append(hook_door)
 
-
-"""

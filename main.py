@@ -157,6 +157,11 @@ if __name__ == '__main__':
         sess.commit()
 
         # create hookDoors!
+        hook1.add_door(door1)
+        hook1.add_door(door2)
+        hook2.add_door(door3)
+        hook2.add_door(door1)
+
         '''hookDoor1: HookDoors = HookDoors(hook1, door1)
         hookDoor2: HookDoors = HookDoors(hook2, door2)
         hookDoor3: HookDoors = HookDoors(hook3, door5)

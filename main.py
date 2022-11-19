@@ -25,7 +25,7 @@ if __name__ == '__main__':
     # use the logging factory to create our second logger.
     logging.getLogger("sqlalchemy.pool").setLevel(logging.DEBUG)
 
-    metadata.drop_all(bind=engine)  # start with a clean slate while in development
+   #  metadata.drop_all(bind=engine)  # start with a clean slate while in development
 
     # Create whatever tables are called for by our "Entity" classes.  The simple fact that
     # your classes that are subtypes of Base have been loaded by Python has populated

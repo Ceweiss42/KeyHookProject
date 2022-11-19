@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, Identity, Float, \
-    String, UniqueConstraint
+    String, UniqueConstraint, Sequence
 from sqlalchemy.orm import relationship
 from orm_base import Base
 
@@ -10,7 +10,7 @@ from HookDoor import HookDoors
 
 class Hooks(Base):
     __tablename__ = "hooks"
-    hook_number = Column('hook_number', Integer, Identity(start=1, cycle=True),
+    hook_number = Column('hook_number', Integer, Identity("hook_seq", start=1),
                          nullable=False, primary_key=True)
 
     doors_list: [HookDoors] = relationship("HookDoors", back_populates="hooks")

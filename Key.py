@@ -9,7 +9,8 @@ from orm_base import Base
 
 class Keys(Base):
     __tablename__ = "keys"
-    key_number = Column('key_number', Integer, ForeignKey('hooks.hook_number'), nullable=False, primary_key=True)
+    key_number = Column('key_number', Integer, ForeignKey('hooks.hook_number'), #nullable=False,
+                        primary_key=True)
 
     # Key does not have a candidate key
     # One to many relationship between hook and key

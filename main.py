@@ -9,6 +9,9 @@ from Room import Room
 from DoorName import DoorName
 from Door import Door
 from Hook import Hooks
+from HookDoor import HookDoors
+from Key import Keys
+from Employee import Employees
 
 import sqlalchemy.sql.functions
 from db_connection import Session, engine
@@ -79,6 +82,52 @@ if __name__ == '__main__':
         hook7: Hooks = Hooks()
         hook8: Hooks = Hooks()
 
+        #create hookDoors!
+        hookDoor1: HookDoors = HookDoors(hook1, door1)
+        hookDoor2: HookDoors = HookDoors(hook2, door2)
+        hookDoor3: HookDoors = HookDoors(hook3, door5)
+        hookDoor4: HookDoors = HookDoors(hook4, door7)
+        hookDoor5: HookDoors = HookDoors(hook5, door1)
+        hookDoor6: HookDoors = HookDoors(hook6, door9)
+        hookDoor7: HookDoors = HookDoors(hook7, door5)
+        hookDoor8: HookDoors = HookDoors(hook8, door4)
+        hookDoor9: HookDoors = HookDoors(hook1, door6)
+        hookDoor10: HookDoors = HookDoors(hook4, door3)
+        hookDoor11: HookDoors = HookDoors(hook2, door2)
+        hookDoor12: HookDoors = HookDoors(hook8, door1)
+        hookDoor13: HookDoors = HookDoors(hook6, door8)
+
+        #add employees
+        employee1: Employees = Employees("Cameron", "Weiss")
+        employee2: Employees = Employees("Ed", "Aguilar")
+        employee3: Employees = Employees("Jimmy", "Something")
+        employee4: Employees = Employees("Jeff", "Something")
+        employee5: Employees = Employees("David", "Brown")
+
+        #create keys!
+        key1: Keys = Keys(hook2)
+        key2: Keys = Keys(hook1)
+        key3: Keys = Keys(hook5)
+        key4: Keys = Keys(hook2)
+        key5: Keys = Keys(hook6)
+        key6: Keys = Keys(hook8)
+        key7: Keys = Keys(hook7)
+        key8: Keys = Keys(hook2)
+        key9: Keys = Keys(hook3)
+        key10: Keys = Keys(hook1)
+        key11: Keys = Keys(hook2)
+        key12: Keys = Keys(hook7)
+        key13: Keys = Keys(hook4)
+
+
+        #add employees
+        sess.add(employee1)
+        sess.add(employee2)
+        sess.add(employee3)
+        sess.add(employee4)
+        sess.add(employee5)
+
+
         # add buildings
         sess.add(building1)
         sess.add(building2)
@@ -120,6 +169,36 @@ if __name__ == '__main__':
         sess.add(hook6)
         sess.add(hook7)
         sess.add(hook8)
+
+        #add hookDoors
+        sess.add(hookDoor1)
+        sess.add(hookDoor2)
+        sess.add(hookDoor3)
+        sess.add(hookDoor4)
+        sess.add(hookDoor5)
+        sess.add(hookDoor6)
+        sess.add(hookDoor7)
+        sess.add(hookDoor8)
+        sess.add(hookDoor9)
+        sess.add(hookDoor10)
+        sess.add(hookDoor11)
+        sess.add(hookDoor12)
+        sess.add(hookDoor13)
+
+        #add keys
+        sess.add(key1)
+        sess.add(key2)
+        sess.add(key3)
+        sess.add(key4)
+        sess.add(key5)
+        sess.add(key6)
+        sess.add(key7)
+        sess.add(key8)
+        sess.add(key9)
+        sess.add(key10)
+        sess.add(key11)
+        sess.add(key12)
+        sess.add(key13)
 
         sess.commit()
 

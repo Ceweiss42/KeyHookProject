@@ -2,11 +2,11 @@ from sqlalchemy import Column, Integer, Identity, Float, \
     String, UniqueConstraint, ForeignKey, ForeignKeyConstraint
 from sqlalchemy.orm import relationship
 from orm_base import Base
-from DoorName import DoorName
+from DoorName import DoorNames
 from HookDoor import HookDoors
 
 
-class Door(Base):
+class Doors(Base):
     __tablename__ = "doors"
     door_name = Column('door_name', String(20),   ForeignKey('door_names.door_name'),
                        nullable=False, primary_key=True)
@@ -23,9 +23,9 @@ class Door(Base):
     doornames = relationship("DoorName", back_populates="doors", viewonly=False)
     # One-to-many relationship between Room and Door
     #room = relationship("Room", back_populates="door", viewonly=False)
-    rooms = relationship("Rooms", back_populates="doors")
+    rooms = relationship("Rooms", back_populates="doors", viewonly=False)
 
-    hooks_list: [HookDoors] = relationship("HookDoors", back_populates="doors")
+    hooks_list: [HookDoors] = relationship("HookDoors", back_populates="doors", viewonly=False)
 
     #    #rooms_building_name_doors = relationship("Door", back_populates="room", viewonly=False)
 

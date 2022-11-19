@@ -5,15 +5,16 @@ from sqlalchemy import Column, String, Integer, Float, UniqueConstraint, \
     Identity, ForeignKey, distinct, bindparam
 from sqlalchemy.orm import relationship, backref
 from Building import Buildings
-from Room import Room
-from DoorName import DoorName
-from Door import Door
+from Room import Rooms
+from DoorName import DoorNames
+from Door import Doors
 from Request import Requests
 from Hook import Hooks
 from HookDoor import HookDoors
 from Key import Keys
 from Employee import Employees
-#from KeyIssuance import KeyIssuances
+from ReturnKey import ReturnKeys
+from LossKey import LossKeys
 
 import sqlalchemy.sql.functions
 from db_connection import Session, engine

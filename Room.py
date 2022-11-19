@@ -9,7 +9,7 @@ from orm_base import Base
 from Building import Buildings
 
 
-class Room(Base):
+class Rooms(Base):
     __tablename__ = "rooms"
     room_number = Column('room_number', Integer, nullable=False, primary_key=True)
     building_name = Column('building_name', String(40), ForeignKey('buildings.building_name'),
@@ -18,9 +18,9 @@ class Room(Base):
 
     # One to many relationship between building and room
     # NOTE: the r_building naming convention caused an error.  removing it allowed the relationship to form properly. EA
-    buildings = relationship("Buildings", back_populates="rooms")
-    doors = relationship("Doors", back_populates="rooms")
-    requests = relationship("Requests", back_populates="rooms")
+    buildings = relationship("Buildings", back_populates="rooms", viewonly=False)
+    doors = relationship("Doors", back_populates="rooms", viewonly=False)
+    requests = relationship("Requests", back_populates="rooms", viewonly=False)
 
  #   door = relationship("Door", back_populates="room")
 

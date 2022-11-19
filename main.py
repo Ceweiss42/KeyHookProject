@@ -157,7 +157,7 @@ if __name__ == '__main__':
         sess.commit()
 
         # create hookDoors!
-        hookDoor1: HookDoors = HookDoors(hook1, door1)
+        '''hookDoor1: HookDoors = HookDoors(hook1, door1)
         hookDoor2: HookDoors = HookDoors(hook2, door2)
         hookDoor3: HookDoors = HookDoors(hook3, door5)
         hookDoor4: HookDoors = HookDoors(hook4, door7)
@@ -183,7 +183,7 @@ if __name__ == '__main__':
         sess.add(hookDoor11)
         sess.add(hookDoor12)
         sess.add(hookDoor13)
-        sess.commit()
+        sess.commit()'''
 
         # add employees
         employee1: Employees = Employees("Cameron", "Weiss")

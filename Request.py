@@ -13,11 +13,12 @@ class Requests(Base):
     employee_id = Column('employee_id', Integer, nullable=False, primary_key=False)
     requested_date = Column('requested_date', DateTime, nullable=False, primary_key=False)
     key_number = Column('key_number', Integer, nullable=False, primary_key=False)
+    key_id = Column('key_id', Integer, nullable=False, primary_key=False)
     request_id = Column('request_id', Integer, Identity(start=1, cycle=True), nullable=False, primary_key=True)
 
     __table_args__ = (ForeignKeyConstraint(['room_number', 'building_name'], ['rooms.room_number', 'rooms.building_name']),
                       ForeignKeyConstraint(['employee_id'], ['employees.employee_id']),
-                      ForeignKeyConstraint(['key_number'], ['keys.key_number']),)
+                      ForeignKeyConstraint(['key_number', 'key_id'], ['keys.key_number', 'keys.key_id']),)
 
     #key_issuance = relationship("KeyIssuance", back_populates='request', viewonly=False)
     employees = relationship('Employees', back_populates='requests', viewonly=False)

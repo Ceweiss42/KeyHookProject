@@ -160,7 +160,13 @@ if __name__ == '__main__':
         hook1.add_door(door1)
         hook1.add_door(door2)
         hook2.add_door(door3)
-        hook2.add_door(door1)
+        hook2.add_door(door4)
+        hook3.add_door(door9)
+        hook4.add_door(door4)
+        hook5.add_door(door5)
+        hook6.add_door(door6)
+        hook7.add_door(door7)
+        hook8.add_door(door8)
 
         sess.commit()
 

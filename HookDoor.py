@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, Identity, Float, \
     String, UniqueConstraint, ForeignKey, ForeignKeyConstraint
 from sqlalchemy.orm import relationship
-
+from Door import Doors
 from orm_base import Base
 
 

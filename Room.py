@@ -31,6 +31,9 @@ class Rooms(Base):
         self.room_number = room_number
         self.building_name = building.building_name
 
+    def __str__(self):
+        return str("Room Number: " + str(self.room_number) + "     Building Name: " + str(self.building_name))
+
 
 # request_list: [Request] = relationship("Request", back_populates="room", viewonly=False)
 """ # One to many relationship between room and door

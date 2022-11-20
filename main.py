@@ -19,14 +19,183 @@ from LossKey import LossKeys
 import sqlalchemy.sql.functions
 from db_connection import Session, engine
 from orm_base import metadata
-import logging
+#import logging
+
+
+
+
+def viewTable(tableNum, session):
+    tables = [Buildings, Rooms, DoorNames, Doors, Employees, HookDoors, Hooks, Keys, LossKeys, Requests, ReturnKeys]
+    search = session.query(tables[tableNum])
+    for row in search:
+        print(row)
+
+def runCreateRequest(userID, session):
+    print("Here are all of the rooms:")
+    rooms = session.query(Rooms)
+    i = 0
+    for room in rooms:
+        print(i , ". " , room)
+        i += 1
+
+    chosenRoom = None
+    try:
+        choice = int(input("What room would you like access to?(Enter Room Row)"))
+        if choice < 0 or choice > i:
+            print("Please enter a valid room")
+            runCreateRequest(userID, session)
+        else:
+            chosenRoom = rooms[choice]
+            print(chosenRoom)
+            haveAccess = session.query(Requests).filter(chosenRoom.room_number == Requests.room_number and
+                                                        chosenRoom.building_name == Requests.building_name and
+                                                        userID == Requests.employee_id)
+            count = 0
+            for row in haveAccess:
+                count += 1
+
+            if count == 0:
+                #they don't have access
+                emp = session.query(Employees).filter(userID == Employees.employee_id)[0]
+                #now we need the key
+                hookdoor = session.query(HookDoors).filter(chosenRoom.room_number == HookDoors.room_number and
+                                                   chosenRoom.building_name == HookDoors.building_name)[0]
+                key = session.query(Keys).filter(Keys.key_number == hookdoor.hook_number)[0]
+
+
+                newReq: Requests = Requests(emp, chosenRoom, key)
+                session.add(newReq)
+                session.commit()
+                print(newReq)
+                print("Successfully submitted a Request")
+
+            else:
+                print("You already have access to this room!")
+                #check the return list to see if they've returned it
+
+    except ValueError:
+        print("Please a valid Room")
+        runCreateRequest(userID, session)
+
+
+
+def runRequestOptions(user, session):
+    print("What would you like to do?")
+    print("0. Request a Key\n1. Return a Key\n 2. Report a Lost Key")
+
+    try:
+        option = int(input())
+        if option < 0 or option > 2:
+            print("Please enter a valid option")
+            runRequestOptions(user, session)
+        else:
+            #we have input a correct option
+            if option == 0:
+                runCreateRequest(user, session)
+            elif option == 1:
+                #Ask for the request ID
+                try:
+
+                    print("Here are all the request IDs\n")
+                    request_ids = session.query(Requests)
+                    i = 0
+                    for request_id in request_ids:
+                        print(i, ". ", request_id)
+                        i += 1
+
+                    returned_request_ID = int(input("Enter the request ID\n"))
+                    res = session.query(ReturnKeys).filter(ReturnKeys.request_id == returned_request_ID)[0]
+                    #grab the date somehow
+                    #returned_loaned_date = session.query(ReturnKeys).filter(ReturnKeys.loaned_date == returned_request_ID)[0]
+                    # res2 = session.query(ReturnKeys).filter(ReturnKeys.loaned_date == request_id)[0]
+
+                    #res3 = session.
+
+                    #append to res here
+
+                    #print our request ID?
+                except ValueError:
+                    print("Error: entered wrong value")
+                    runRequestOptions(user, session)
+
+
+                pass
+            else:
+                #print all requests that the user_id has
+                #user should pick one via request number
+                # res = session.query(Requests).filter(Requests.employee_id == user and the request number == choice number)
+                req_choice_num = input("Which of these request numbers are yours")
+                res = session.query(Requests).filter(Requests.employee_id == user and Requests.request_id == req_choice_num)
+
+
+    except ValueError:
+        print("Please enter a valid option")
+        runRequestOptions(user, session)
+def runViewSystem(session):
+    printViewMenu()
+    try:
+        choice = int(input())
+        if choice < 0 or choice > 10:
+            print("Please enter a number within the range")
+            runViewSystem(session)
+        else:
+            viewTable(choice, session)
+
+    except ValueError:
+        print("Error, you have typed in a wrong error, please try again")
+        runViewSystem(session)
+
+    # give the computer our employee id
+    # take that id, and spit all requests that this id made
+    # send back our request choice
+    # asks what to do(return, loss)
+    # create a new instance of return/loss of that request
+def runRequestSystem(session):
+    try:
+        user_id = int(input("Please enter your ID\n"))
+
+        res = session.query(Employees).filter(Employees.employee_id == user_id)
+        count = 0
+        for row in res:
+            count += 1
+        if count == 0:
+            print("Please enter a valid ID")
+            runRequestSystem(session)
+        else:
+            print("Welcome, " + res[0].first_name + " " + res[0].last_name)
+            runRequestOptions(user_id, session)
+
+
+
+
+
+    except ValueError:
+        print("Please enter a valid id")
+        runRequestSystem(session)
+
+
+def printMainMenu():
+    print("What would you like to do?")
+    print("0. View")
+    print("1. Make A Request")
+    print("2. Exit\n")
+
+def printViewMenu():
+    print("You have chosen to view the tables")
+    print("What table would you like to view? Available tables are:")
+    print("0. buildings\n1. rooms\n2. door_names\n3. doors\n4. employees\n5. hook_doors"
+          "\n6. hooks\n7. keys\n8. loss_keys\n9. requests\n10. return_keys")
+
 
 if __name__ == '__main__':
-    logging.basicConfig()
+
+    #the console output from sqlalchemy got annoying, so we removed logging and the echo on engine
+
+    #logging.basicConfig()
     # use the logging factory to create our first logger.
-    logging.getLogger("sqlalchemy.engine").setLevel(logging.INFO)
+    #logging.getLogger("sqlalchemy.engine").setLevel(logging.INFO)
     # use the logging factory to create our second logger.
-    logging.getLogger("sqlalchemy.pool").setLevel(logging.DEBUG)
+    #logging.getLogger("sqlalchemy.pool").setLevel(logging.DEBUG)
 
     metadata.drop_all(bind=engine)  # start with a clean slate while in development
 
@@ -167,7 +336,6 @@ if __name__ == '__main__':
         hook6.add_door(door6)
         hook7.add_door(door7)
         hook8.add_door(door8)
-
         sess.commit()
 
         # add employees
@@ -181,8 +349,6 @@ if __name__ == '__main__':
         sess.add(employee3)
         sess.add(employee4)
         sess.add(employee5)
-
-
 
         sess.commit()
 
@@ -198,12 +364,79 @@ if __name__ == '__main__':
         sess.add(req4)
         sess.add(req5)
         sess.add(req6)
-
+        sess.commit()
         # add lostkey
-       # losskey1: LossKeys = LossKeys(req1, datetime.datetime(2022,11,15), datetime.datetime(2022,11,15))
-
+        losskey1: LossKeys = LossKeys(req1, datetime.datetime(2022, 11, 15))
+        losskey2: LossKeys = LossKeys(req4, datetime.datetime(2020, 3, 21))
+        losskey3: LossKeys = LossKeys(req3, datetime.datetime(2021, 7, 11))
+        losskey4: LossKeys = LossKeys(req2, datetime.datetime(2019, 7, 5))
+        losskey5: LossKeys = LossKeys(req1, datetime.datetime(2022, 2, 7))
+        losskey6: LossKeys = LossKeys(req1, datetime.datetime(2022, 9, 10))
+        losskey7: LossKeys = LossKeys(req6, datetime.datetime(2022, 11, 30))
+        sess.add(losskey1)
+        sess.add(losskey2)
+        sess.add(losskey3)
+        sess.add(losskey4)
+        sess.add(losskey5)
+        sess.add(losskey6)
+        sess.add(losskey7)
         sess.commit()
 
-print("Exiting normally.")
+        ret1: ReturnKeys = ReturnKeys(req1, datetime.datetime(2022, 11, 10))
+        ret2: ReturnKeys = ReturnKeys(req4, datetime.datetime(2022, 3, 21))
+        ret3: ReturnKeys = ReturnKeys(req3, datetime.datetime(2021, 7, 6))
+        ret4: ReturnKeys = ReturnKeys(req2, datetime.datetime(2001, 9, 14))
+        ret5: ReturnKeys = ReturnKeys(req1, datetime.datetime(2022, 8, 13))
+        ret6: ReturnKeys = ReturnKeys(req1, datetime.datetime(2022, 9, 10))
+        ret7: ReturnKeys = ReturnKeys(req6, datetime.datetime(2022, 11, 13))
+        sess.add(ret1)
+        sess.add(ret2)
+        sess.add(ret3)
+        sess.add(ret4)
+        sess.add(ret5)
+        sess.add(ret6)
+        sess.add(ret7)
+        sess.commit()
 
-#this is the update
+    #searchResult = sess.query(Rooms)
+    #for row in searchResult:
+    #    print(row)
+
+    it_is = False
+    while not it_is:
+        try:
+            printMainMenu()
+            choice = int(input())
+            if (choice >= 0) and (choice <= 2):
+                it_is = True
+            else:
+                print("invalid range, please enter a value between 0 and 2")
+                it_is = False
+        except ValueError:
+            print("invalid input, please enter a correct value.")
+            it_is = False
+
+    #now we have a valid input, lets check:
+        if choice == 2:
+            print("Exiting the program! Goodbye...")
+            exit()
+        it_is = False
+
+        with Session() as sess:
+            if choice == 0:
+                runViewSystem(sess)
+
+            elif choice == 1:
+                runRequestSystem(sess)
+
+
+
+
+
+    # ok, user has chosen
+
+    # start application console stuff
+
+
+
+# this is the update

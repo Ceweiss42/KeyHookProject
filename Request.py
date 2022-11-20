@@ -30,6 +30,10 @@ class Requests(Base):
 
 
 
+    def __str__(self):
+        return str("Room Number: " + str(self.room_number) + "     Building Name: " + str(self.building_name) + "     Employee Id: " + str(self.employee_id)
+                   + "     Requested Date: " + str(self.requested_date) + "     Key Number: " + str(self.key_number) + "     Key Id: " + str(self.key_id)
+                   + "     Request Id: " + str(self.request_id))
     def __init__(self, employee, room, key):
         self.room_number = room.room_number
         self.building_name = room.building_name

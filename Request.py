@@ -36,8 +36,8 @@ class Requests(Base):
         self.employee_id = employee.employee_id
         self.key_number = key.key_number
         self.key_id = key.key_id
-        self.key_issuances_list = []
-
+      #  self.key_issuances_list = []
+"""
     def add_key_issuance(self, key_issuance):
         for next_ki in self.key_issuances_list:
             if next_ki == key_issuance:
@@ -46,5 +46,5 @@ class Requests(Base):
 
         #key_issuance =
 
-
+"""
     

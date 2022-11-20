@@ -200,7 +200,7 @@ if __name__ == '__main__':
         sess.add(req6)
 
         # add lostkey
-        losskey1: LossKeys = LossKeys(req1, datetime.datetime(2022,11,15), datetime.datetime(2022,11,15))
+       # losskey1: LossKeys = LossKeys(req1, datetime.datetime(2022,11,15), datetime.datetime(2022,11,15))
 
         sess.commit()
 

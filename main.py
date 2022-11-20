@@ -1,5 +1,5 @@
 """HookKey Project Phase Two:  Using SQL Alchemy to create an application for key requests"""
-
+import datetime
 from pprint import pprint
 from sqlalchemy import Column, String, Integer, Float, UniqueConstraint, \
     Identity, ForeignKey, distinct, bindparam
@@ -182,6 +182,8 @@ if __name__ == '__main__':
         sess.add(employee4)
         sess.add(employee5)
 
+
+
         sess.commit()
 
         req1: Requests = Requests(employee1, room6, key5)
@@ -196,6 +198,10 @@ if __name__ == '__main__':
         sess.add(req4)
         sess.add(req5)
         sess.add(req6)
+
+        # add lostkey
+        losskey1: LossKeys = LossKeys(req1, datetime.datetime(2022,11,15), datetime.datetime(2022,11,15))
+
         sess.commit()
 
 print("Exiting normally.")

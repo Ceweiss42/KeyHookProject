@@ -12,15 +12,16 @@ from orm_base import Base
 
 class LossKeys(Base):
     __tablename__ = "loss_keys"
-    loaned_out_date = Column('loaned_out_date', DateTime, nullable=False, primary_key=True)
     request_request_id = Column('request_id', Integer, ForeignKey('requests.request_id'), nullable=False,
                                 primary_key=True)
+    loaned_out_date = Column('loaned_out_date', DateTime, nullable=False, primary_key=True)
     loss_date = Column('loss_date', DateTime(timezone=False), default=func.now(), nullable=False, primary_key=True)
 
     #key_issuance = relationship("key_issuance", back_populates = "random")
     requests = relationship("Requests", back_populates="losskeys")
 
     # Constructor
-    def init(self, request, loan_date:DateTime):
+    def init(self, request, loan_date: DateTime, loss_date: DateTime):
+        self.request_request_id = request.request_id
         self.loaned_out_date = loan_date
-        self.request_request_id= request.request_id
+        self.loss_date = loss_date

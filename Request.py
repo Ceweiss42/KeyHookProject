@@ -21,7 +21,7 @@ class Requests(Base):
                       ForeignKeyConstraint(['employee_id'], ['employees.employee_id']),
                       ForeignKeyConstraint(['key_number', 'key_id'], ['keys.key_number', 'keys.key_id']),)
 
-    #key_issuance = relationship("KeyIssuance", back_populates='request', viewonly=False)
+
     employees = relationship('Employees', back_populates='requests', viewonly=False)
     rooms = relationship('Rooms', back_populates='requests', viewonly=False)
     keys = relationship("Keys", back_populates="requests")

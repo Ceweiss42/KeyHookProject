@@ -33,3 +33,6 @@ class HookDoors(Base):
         # These next two properties are strictly from the OO perspective.
         self.door = door
         self.hook = hook
+    def __str__(self):
+        return str("Door Name: "+ str(self.door_name) +"     Room Number: " + str(self.room_number) +
+                   "     Building Name: " + str(self.building_name)+"     Hook Number: "+ str(self.hook_number))

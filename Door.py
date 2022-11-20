@@ -15,7 +15,7 @@ class Doors(Base):
                          nullable=False, primary_key=True)
     building_name = Column('building_name', String(40),  # ForeignKey('rooms.building_name'),
                            nullable=False, primary_key=True)
-    # Foreign Key Constraint for Rooms becaues it has more than one column coming from rooms
+    # Foreign Key Constraint for Rooms because it has more than one column coming from rooms
     __table_args__ = (ForeignKeyConstraint(['room_number', 'building_name'], ['rooms.room_number', 'rooms.building_name'],
                          name="fk_doors_rooms_01"),)
 
@@ -33,8 +33,9 @@ class Doors(Base):
         self.building_name = room.building_name
         self.hooks_list = []
 
-#        Add an hook to the list of hooks.
-#        @param hook The instance of door tied to this hook.
+    def __str__(self):
+        return str("Door Name: "+ str(self.door_name) +"     Room Number: " + str(self.room_number) +
+                   "     Building Name: " + str(self.building_name))
 
     def add_hook(self, hook):
         # make sure this request is non already on the list.

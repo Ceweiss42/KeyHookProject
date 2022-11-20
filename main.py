@@ -103,6 +103,42 @@ def runCreateRequest(userID, session):
         print("Please a valid Room")
         runCreateRequest(userID, session)
 
+def addDoor(session):
+    print("Here are all of the door names:")
+    doornames = session.query(DoorNames)
+    i = 0
+    for dn in doornames:
+        print(i, ". ", dn)
+        i += 1
+
+    try:
+        choice = int(input("Enter the index of a door name!"))
+        if choice > i or choice < 0:
+            print("Invalid input, try again")
+            addDoor(session)
+        else:
+            print("What room should this door be fore?")
+            rooms = session.query(Rooms)
+            c = 0
+            for r in rooms:
+                print(c, ". ", r)
+                c += 1
+            try:
+                roomChoice = int(input("Please enter the index of the room:"))
+                if roomChoice > c or roomChoice < 0:
+                    print("invalid input, please try again")
+                    addDoor(session)
+                else:
+                    newDoor: Doors = Doors(doornames[dn], rooms[roomChoice])
+                    session.add(newDoor)
+                    session.commit()
+            except ValueError:
+                print("invalid input, please try again")
+                addDoor(session)
+
+    except ValueError:
+        print("invalid input, please try again")
+        addDoor(session)
 
 
 def runRequestOptions(user, session):
@@ -122,48 +158,102 @@ def runRequestOptions(user, session):
                 #Ask for the request ID
                 try:
 
-                    print("Here are all the request IDs\n")
-                    request_ids = session.query(Requests)
+                    print("Here are all the requests you currently have\n")
+                    request_ids = session.query(Requests).filter(Requests.employee_id == user)
+                    shrunk_requests: [Requests] = []
+                    for row in request_ids:
+                        returned = session.query(ReturnKeys).filter(ReturnKeys.request_request_id == row.request_id)
+                        lost = session.query(LossKeys).filter(LossKeys.request_request_id == row.request_id)
+                        c = 0
+                        for _ in returned:
+                            c += 1
+
+                        for _ in lost:
+                            c += 1
+
+                        if c == 0:
+                            #that request has NOT been returned
+                            shrunk_requests.append(row)
+
                     i = 0
-                    for request_id in request_ids:
-                        print(i, ". ", request_id)
+                    for req in shrunk_requests:
+                        print(i, ". ", req)
                         i += 1
 
-                    returned_request_ID = int(input("Enter the request ID\n"))
-                    res2 = session.query(ReturnKeys).filter(ReturnKeys.request_request_id == returned_request_ID)[0]
-                    #######################################
-
-                    #grab the date
-                    print("Here are all the dates that the key was loaned out\n")
-                    loaned_dates = session.query(Requests)
-                    i = 0
-                    for loaned_date in loaned_dates:
-                        print(i, ". ", loaned_date)
-                        i += 1
-
-                    returned_loaned_date = int(input("Enter the date you were loaned the key out\n"))
-                    res1 = session.query(ReturnKeys).filter(ReturnKeys.loaned_date == returned_loaned_date)[0]
-                    #####################################
-                    returned_date = input("Please enter the date you are returning the key\n")
-                    res3 = session.query(ReturnKeys).filter(ReturnKeys.return_date == returned_date)[0]
-
-                    new_returned_key: ReturnKeys = ReturnKeys(res1,res2,res3)
-                    session.add(new_returned_key)
-                    session.commit()
+                    if i == 0:
+                        print("You currently have no requests that have not been returned")
+                        return
+                    loc = int(input("Enter the request index\n"))
+                    if loc < 0 or loc > i:
+                        print("You entered an invalid index")
+                        runRequestOptions(user, session)
+                    else:
+                        selected_req = shrunk_requests[loc]
+                        #######################################
+                        returnedRequest: ReturnKeys = ReturnKeys(selected_req, selected_req.requested_date)
+                        #grab the date
+                        '''print("Here are all the dates that the key was loaned out\n")
+                        loaned_dates = session.query(Requests)
+                        i = 0
+                        for loaned_date in loaned_dates:
+                            print(i, ". ", loaned_date)
+                            i += 1
+    
+                        returned_loaned_date = int(input("Enter the date you were loaned the key out\n"))
+                        res1 = session.query(ReturnKeys).filter(ReturnKeys.loaned_date == returned_loaned_date)[0]
+                        #####################################
+                        returned_date = input("Please enter the date you are returning the key\n")
+                        res3 = session.query(ReturnKeys).filter(ReturnKeys.return_date == returned_date)[0]
+    
+                        new_returned_key: ReturnKeys = ReturnKeys(res1,res2,res3)'''
+                        session.add(returnedRequest)
+                        session.commit()
+                        print("You successfully closed the request (returned)")
 
                     #print our request ID?
                 except ValueError:
                     print("Error: entered wrong value")
                     runRequestOptions(user, session)
 
-
-                pass
             else:
-                #print all requests that the user_id has
-                #user should pick one via request number
-                # res = session.query(Requests).filter(Requests.employee_id == user and the request number == choice number)
-                req_choice_num = input("Which of these request numbers are yours")
-                res = session.query(Requests).filter(Requests.employee_id == user and Requests.request_id == req_choice_num)
+                print("Here are all the requests you currently have\n")
+                request_ids = session.query(Requests).filter(Requests.employee_id == user)
+                shrunk_requests: [Requests] = []
+                for row in request_ids:
+                    returned = session.query(ReturnKeys).filter(ReturnKeys.request_request_id == row.request_id)
+                    lost = session.query(LossKeys).filter(LossKeys.request_request_id == row.request_id)
+                    c = 0
+                    for _ in returned:
+                        c += 1
+
+                    for _ in lost:
+                        c += 1
+
+                    if c == 0:
+                        # that request has NOT been returned OR lost
+                        shrunk_requests.append(row)
+
+                i = 0
+                for req in shrunk_requests:
+                    print(i, ". ", req)
+                    i += 1
+
+                if i == 0:
+                    print("You currently have no requests that have not been returned/lost")
+                    return
+                loc = int(input("Enter the request index\n"))
+                if loc < 0 or loc > i:
+                    print("You entered an invalid index")
+                    runRequestOptions(user, session)
+                else:
+                    lostRequest: LossKeys = LossKeys(shrunk_requests[loc], shrunk_requests[loc].requested_date)
+                    session.add(lostRequest)
+                    session.commit()
+                    print("You successfully closed the request (lost)")
+
+
+
+
 
 
     except ValueError:
@@ -211,12 +301,103 @@ def runRequestSystem(session):
         print("Please enter a valid id")
         runRequestSystem(session)
 
+def getAccessibleRooms(session):
+    try:
+        user_id = int(input("Please enter your ID\n"))
+
+        res = session.query(Employees).filter(Employees.employee_id == user_id)
+        count = 0
+        for row in res:
+            count += 1
+        if count == 0:
+            print("Please enter a valid ID")
+            getAccessibleRooms(session)
+        else:
+            print("Welcome, " + res[0].first_name + " " + res[0].last_name)
+            print("You have access to the following rooms:")
+            myReqs = session.query(Requests).filter(res[0].employee_id == Requests.employee_id)
+            shrunkReqs: [Requests] = []
+            for r in myReqs:
+                returned = session.query(ReturnKeys).filter(ReturnKeys.request_request_id == r.request_id)
+                lost = session.query(LossKeys).filter(LossKeys.request_request_id == r.request_id)
+                c = 0
+                for _ in returned:
+                    c += 1
+
+                for _ in lost:
+                    c += 1
+
+                if c == 0:
+                    shrunkReqs.append(r)
+
+            roomsList: [Rooms] = []
+            for r in shrunkReqs:
+                room = session.query(Rooms).filter(Rooms.room_number == r.room_number and Rooms.building_name == r.building_name)
+                roomsList.append(room)
+
+            for room in roomsList:
+                print(room)
+
+    except ValueError:
+        print("Please enter a valid id")
+        getAccessibleRooms(session)
+
+def deleteEmployee(session):
+    print("Here all all the employees")
+    emps = session.query(Employees)
+    i = 0
+    for e in emps:
+        i += 1
+        print(e)
+
+    print("Please enter an employee id:\n")
+    try:
+        choice = int(input())
+        if choice < 0 or choice > i:
+            print("You entered an incorrect value")
+            deleteEmployee(session)
+        else:
+            session.query(Employees).filter(Employees.employee_id == choice).delete()
+            session.commit()
+            print("Deleted the selected Employee")
+    except ValueError:
+        print("You entered an incorrect value")
+        deleteEmployee(session)
+
+
+def deleteKey(session):
+    print("here are all the keys")
+    keys = session.query(Keys)
+    i = 0
+    for k in keys:
+        i += 1
+        print(k)
+
+    print("Please enter the id of the key you would like to delete:")
+    try:
+        choice = int(input())
+        if choice < 0 or choice > i:
+            print("You entered an incorrect value")
+            deleteKey(session)
+        else:
+            session.query(Keys).filter(Keys.key_id == choice).delete()
+            session.commit()
+            print("Deleted the selected key")
+    except ValueError:
+        print("You entered an incorrect value")
+        deleteKey(session)
+
 
 def printMainMenu():
     print("What would you like to do?")
     print("0. View")
-    print("1. Make A Request")
-    print("2. Exit\n")
+    print("1. Manage Requests")
+    print("2. View Rooms You Have Access to")
+    print("3. Delete a Key")
+    print("4. Delete Employee")
+    print("5. Add Door")
+    print("6. Update Request to new Employee")
+    print("7. Exit\n")
 
 def printViewMenu():
     print("You have chosen to view the tables")
@@ -445,7 +626,7 @@ if __name__ == '__main__':
         try:
             printMainMenu()
             choice = int(input())
-            if (choice >= 0) and (choice <= 2):
+            if (choice >= 0) and (choice <= 7):
                 it_is = True
             else:
                 print("invalid range, please enter a value between 0 and 2")
@@ -455,7 +636,7 @@ if __name__ == '__main__':
             it_is = False
 
     #now we have a valid input, lets check:
-        if choice == 2:
+        if choice == 7:
             print("Exiting the program! Goodbye...")
             exit()
         it_is = False
@@ -466,6 +647,14 @@ if __name__ == '__main__':
 
             elif choice == 1:
                 runRequestSystem(sess)
+
+            elif choice == 2:
+                getAccessibleRooms(sess)
+            elif choice == 3:
+                deleteKey(sess)
+
+            elif choice == 4:
+                deleteEmployee(sess)
 
 
 

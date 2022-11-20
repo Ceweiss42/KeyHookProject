@@ -199,3 +199,5 @@ if __name__ == '__main__':
         sess.commit()
 
 print("Exiting normally.")
+
+#this is the update

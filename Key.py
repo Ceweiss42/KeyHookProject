@@ -28,6 +28,9 @@ class Keys(Base):
         self.key_number = original_hook.hook_number
         self.requests_list = []
 
+    def __str__(self):
+        return str("Key Number: " + str(self.key_number) + "     Key ID: " + str(self.key_id)) #might just be key_id
+
     """Add an employee to the list of requests that apply to this employee.
             @param request The instance of request tied to this key."""
 

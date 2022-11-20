@@ -45,4 +45,6 @@ class Hooks(Base):
         # Update the genre to reflect this request.
         self.doors_list.append(hook_door)
 
+    def __str__(self):
+        return str("Hook Number: " + str(self.hook_number)) # maybe might be only hook number
 

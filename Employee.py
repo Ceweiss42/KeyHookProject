@@ -13,12 +13,6 @@ class Employees(Base):
     first_name = Column('first_name', String(50), nullable=False)
     last_name = Column('last_name', String(50), nullable=False)
 
-    # Employee does not have a candidate key.
-    # Employee does not have a candidate key
-    # Employee is one of the parents in a many to many relationship.
-    # Many to Many relationship with Student Requests
-    #requests_list: [Requests] = relationship("Requests", back_populates="employee", viewonly=False)
-
     requests = relationship("Requests", back_populates="employees")
 
     #Constructor
@@ -43,4 +37,7 @@ class Employees(Base):
         request.employee_list.append(employee_request)
         # Update the genre to reflect this request.
         self.requests_list.append(employee_request)
+
+    def __str__(self):
+        return str("Employee ID: " + str(self.employee_id) + "     First Name: " + str(self.first_name) +"     Last Name: " + str(self.last_name))
 

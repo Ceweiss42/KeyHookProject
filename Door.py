@@ -19,13 +19,11 @@ class Doors(Base):
     __table_args__ = (ForeignKeyConstraint(['room_number', 'building_name'], ['rooms.room_number', 'rooms.building_name'],
                          name="fk_doors_rooms_01"),)
 
-    # Building does not have a candidate key
     # One-to-many relationship between DoorName and Door
     doornames = relationship("DoorNames", back_populates="doors", viewonly=False)
     # One-to-many relationship between Room and Door
     rooms = relationship("Rooms", back_populates="doors", viewonly=False)
 
-    #  hooks_list: [HookDoors] = relationship("HookDoors", back_populates="doors")
     hooks_list: [HookDoors] = relationship("HookDoors", back_populates="doors", viewonly=False)
 
     # Constructor

@@ -9,10 +9,11 @@ class Buildings(Base):
     __tablename__ = "buildings"
     building_name = Column('building_name', String(40), nullable=False, primary_key=True)
     #relationship between building to room
-    # NOTE: the r_building naming convention caused an error.  removing it allowed the relationship to form properly. EA
     rooms = relationship("Rooms", back_populates="buildings")
-    # Building does not have a candidate key
 
 
     def __init__(self, building_name: String(40)):
         self.building_name = building_name
+
+    def __str__(self):
+        return str("Building Name: " + str(self.building_name) )

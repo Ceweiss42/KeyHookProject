@@ -24,7 +24,6 @@ class HookDoors(Base):
     # movies_list is the name of the list of MovieGenre instances for the parent movie.
     doors = relationship("Doors", back_populates='hooks_list')
 
-    # Hookdoor does not have a candidate key
 
     # Constructor
     def __init__(self, hook, door):

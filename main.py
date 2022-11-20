@@ -66,12 +66,38 @@ def runCreateRequest(userID, session):
                 newReq: Requests = Requests(emp, chosenRoom, key)
                 session.add(newReq)
                 session.commit()
+                print("\n\nYou have created this request:")
                 print(newReq)
-                print("Successfully submitted a Request")
+                print("\n\nSuccessfully submitted a Request\n\n\n")
 
             else:
-                print("You already have access to this room!")
                 #check the return list to see if they've returned it
+                for req in haveAccess:
+                    returned = session.query(ReturnKeys).filter(ReturnKeys.request_request_id == req.request_id)
+                    c = 0
+                    for r in returned:
+                        c += 1
+                    if c == 0:
+                        #you have not returned it
+                        print("You already have acess to this room!")
+                        return
+
+                emp = session.query(Employees).filter(userID == Employees.employee_id)[0]
+                # now we need the key
+                hookdoor = session.query(HookDoors).filter(chosenRoom.room_number == HookDoors.room_number and
+                                                           chosenRoom.building_name == HookDoors.building_name)[0]
+                key = session.query(Keys).filter(Keys.key_number == hookdoor.hook_number)[0]
+
+                newReq: Requests = Requests(emp, chosenRoom, key)
+                session.add(newReq)
+                session.commit()
+                print("\n\nYou have created this request:")
+                print(newReq)
+                print("\n\nSuccessfully submitted a Request\n\n\n")
+
+
+
+
 
     except ValueError:
         print("Please a valid Room")
@@ -81,7 +107,7 @@ def runCreateRequest(userID, session):
 
 def runRequestOptions(user, session):
     print("What would you like to do?")
-    print("0. Request a Key\n1. Return a Key\n 2. Report a Lost Key")
+    print("0. Request a Key\n1. Return a Key\n2. Report a Lost Key")
 
     try:
         option = int(input())
@@ -104,14 +130,26 @@ def runRequestOptions(user, session):
                         i += 1
 
                     returned_request_ID = int(input("Enter the request ID\n"))
-                    res = session.query(ReturnKeys).filter(ReturnKeys.request_id == returned_request_ID)[0]
-                    #grab the date somehow
-                    #returned_loaned_date = session.query(ReturnKeys).filter(ReturnKeys.loaned_date == returned_request_ID)[0]
-                    # res2 = session.query(ReturnKeys).filter(ReturnKeys.loaned_date == request_id)[0]
+                    res2 = session.query(ReturnKeys).filter(ReturnKeys.request_request_id == returned_request_ID)[0]
+                    #######################################
 
-                    #res3 = session.
+                    #grab the date
+                    print("Here are all the dates that the key was loaned out\n")
+                    loaned_dates = session.query(Requests)
+                    i = 0
+                    for loaned_date in loaned_dates:
+                        print(i, ". ", loaned_date)
+                        i += 1
 
-                    #append to res here
+                    returned_loaned_date = int(input("Enter the date you were loaned the key out\n"))
+                    res1 = session.query(ReturnKeys).filter(ReturnKeys.loaned_date == returned_loaned_date)[0]
+                    #####################################
+                    returned_date = input("Please enter the date you are returning the key\n")
+                    res3 = session.query(ReturnKeys).filter(ReturnKeys.return_date == returned_date)[0]
+
+                    new_returned_key: ReturnKeys = ReturnKeys(res1,res2,res3)
+                    session.add(new_returned_key)
+                    session.commit()
 
                     #print our request ID?
                 except ValueError:

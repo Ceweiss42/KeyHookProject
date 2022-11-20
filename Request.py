@@ -21,7 +21,7 @@ class Requests(Base):
                       ForeignKeyConstraint(['employee_id'], ['employees.employee_id']),
                       ForeignKeyConstraint(['key_number', 'key_id'], ['keys.key_number', 'keys.key_id']),)
 
-    #key_issuance = relationship("KeyIssuance", back_populates='request', viewonly=False)
+
     employees = relationship('Employees', back_populates='requests', viewonly=False)
     rooms = relationship('Rooms', back_populates='requests', viewonly=False)
     keys = relationship("Keys", back_populates="requests")
@@ -36,8 +36,8 @@ class Requests(Base):
         self.employee_id = employee.employee_id
         self.key_number = key.key_number
         self.key_id = key.key_id
-        self.key_issuances_list = []
-
+      #  self.key_issuances_list = []
+"""
     def add_key_issuance(self, key_issuance):
         for next_ki in self.key_issuances_list:
             if next_ki == key_issuance:
@@ -46,5 +46,5 @@ class Requests(Base):
 
         #key_issuance =
 
-
+"""
     

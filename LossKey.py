@@ -21,7 +21,6 @@ class LossKeys(Base):
     requests = relationship("Requests", back_populates="losskeys")
 
     # Constructor
-    def init(self, request, loan_date: DateTime, loss_date: DateTime):
+    def __init__(self, request, loan_date: DateTime):
         self.request_request_id = request.request_id
         self.loaned_out_date = loan_date
-        self.loss_date = loss_date

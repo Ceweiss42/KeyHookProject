@@ -16,7 +16,6 @@ class ReturnKeys(Base):
     requests = relationship("Requests", back_populates="returnkeys")
 
     # Constructor
-    def init(self, request, loaned_date: DateTime, return_date: DateTime):
+    def __init__(self, request, loaned_date: DateTime):
         self.loaned_out_date = loaned_date
         self.request_request_id = request.request_request_id
-        self.return_date = return_date
